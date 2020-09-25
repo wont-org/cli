@@ -1,22 +1,22 @@
-function setEntry() {
-    const entriesDir = glob.sync(path.join(__dirname, './src/pages/*'))
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import entryConfig from '../wont.config'
+
+const { tplHTML, entries } = entryConfig
+
+function setEntry(config: object) {
+    // const entriesDir = glob.sync(config)
+    const entriesDir = Object.values(config)
 
     let entry = {}
-    let htmlWebpackPlugins = []
+    let htmlWebpackPlugins: any = []
     entriesDir.forEach(item=> {
+        console.log('item :>> ', item)
         const entryName = item.slice(item.lastIndexOf('/')+1)
-
-        const pageName = item.match(/src\/pages\/(.*)/)
-        console.log(pageName, 'pageNames')
-
-        const entryHtml = item + '/' + entryName + '.html'
-        entry[entryName] = item + '/' + entryName + '.js'
-
+        entry[entryName] = item + '/' + entryName + '.tsx'
         // 一个页面对应一个
         htmlWebpackPlugins.push(
             new HtmlWebpackPlugin({
-                // template: path.join(__dirname, 'src/index/index.html'),
-                template: entryHtml ? entryHtml : tplHTML, // 一把来讲，共用一个模板
+                template: tplHTML,
                 filename: `${entryName}.html`,
                 // chunks主要用于多入口文件
                 chunks: [entryName],
@@ -56,7 +56,7 @@ function setEntry() {
                     removeComments: true,
 
                     //从脚本和样式删除的注释 默认false
-                    removeCommentsFromCDATA: true,
+                    // removeCommentsFromCDATA: true,
 
                     //是否删除空属性，默认false
                     removeEmptyAttributes: true,
@@ -80,9 +80,15 @@ function setEntry() {
             })
         )
     })
-    // console.log(entry, 'entry')
     return {
         entry,
         htmlWebpackPlugins
     }
+}
+const { entry, htmlWebpackPlugins } = setEntry(entries)
+
+export {
+    setEntry,
+    entry,
+    htmlWebpackPlugins,
 }

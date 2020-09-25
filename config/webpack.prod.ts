@@ -3,7 +3,7 @@ import webpack from 'webpack'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import OptimizeCssAssetsWebpackPlugin from 'optimize-css-assets-webpack-plugin'
 // import HtmlWebpackExternalsPlugin from 'html-webpack-externals-plugin'
-import { baseConfig } from './webpack.base'
+import baseConfig from './webpack.base'
 
 const LOADESR_CSS = [
     // 'style-loader', // 放入 head

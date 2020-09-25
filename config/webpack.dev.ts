@@ -1,7 +1,7 @@
 import WebpackDevServer from 'webpack-dev-server'
 import merge from 'webpack-merge'
 import webpack from 'webpack'
-import { baseConfig } from './webpack.base'
+import baseConfig from './webpack.base'
 import { DIST } from './../common/const'
 
 const devConfig: webpack.Configuration = {

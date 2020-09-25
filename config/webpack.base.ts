@@ -28,7 +28,7 @@ const CACHE_LOADER = {
     },
 }
 
-export const baseConfig = {
+const baseConfig = {
     entry,
     /**
      * 文件指纹 [name][(hash|chunkhash|contenthash)].[ext]
@@ -90,3 +90,5 @@ export const baseConfig = {
         ]
     },
 }
+
+export default baseConfig

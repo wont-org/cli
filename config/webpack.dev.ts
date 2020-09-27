@@ -2,7 +2,8 @@ import WebpackDevServer from 'webpack-dev-server'
 import merge from 'webpack-merge'
 import webpack from 'webpack'
 import baseConfig from './webpack.base'
-import { DIST } from './../common/const'
+import { DIST } from '../common/const'
+import { logServerInfo } from '../common/utils'
 
 const devConfig: webpack.Configuration = {
     watch: false,
@@ -25,16 +26,19 @@ const devConfig: webpack.Configuration = {
         contentBase: DIST,
         hot: true
     },
-    devtool: "#@source-map",
 }
 
-function runDev() {
-    const config = merge(baseConfig, devConfig)
+function dev() {
+    const config = merge(baseConfig(), devConfig)
     const server = new WebpackDevServer(webpack(config), devConfig.devServer)
-    server.listen(8080, '127.0.0.1', () => {
-        console.log('Starting server on http://127.0.0.1:8080');
+    const port = devConfig!.devServer!.port || 8080
+    const host = devConfig!.devServer!.host || 'localhost'
+    server.listen(port, host, () => {
+        logServerInfo(port)
     });
 }
-runDev()
 
-export default devConfig
+export {
+    devConfig,
+    dev,
+}

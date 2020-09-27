@@ -1,5 +1,14 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import chalk from 'chalk'
+import address from 'address'
 import entryConfig from '../wont.config'
+import dotenv from 'dotenv'
+import { 
+    GREEN,
+} from './const';
+
+
+export type NodeEnv = 'production' | 'development'
 
 const { tplHTML, entries } = entryConfig
 
@@ -87,8 +96,26 @@ function setEntry(config: object) {
 }
 const { entry, htmlWebpackPlugins } = setEntry(entries)
 
+
+function setNodeEnv(value: NodeEnv) {
+    dotenv.config({
+        path: `.env.${value}`
+    })
+}
+
+function logServerInfo(port: number) {
+    const local = `http://localhost:${port}/`;
+    const network = `http://${address.ip()}:${port}/`;
+  
+    console.log('\n  Site running at:\n');
+    console.log(`  ${chalk.bold('Local')}:    ${chalk.hex(GREEN)(local)} `);
+    console.log(`  ${chalk.bold('Network')}:  ${chalk.hex(GREEN)(network)}`);
+}
+
 export {
     setEntry,
     entry,
     htmlWebpackPlugins,
+    setNodeEnv,
+    logServerInfo,
 }

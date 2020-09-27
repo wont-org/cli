@@ -1,65 +1,20 @@
 import merge from 'webpack-merge'
 import webpack from 'webpack'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import OptimizeCssAssetsWebpackPlugin from 'optimize-css-assets-webpack-plugin'
 // import HtmlWebpackExternalsPlugin from 'html-webpack-externals-plugin'
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import baseConfig from './webpack.base'
-
-const LOADESR_CSS = [
-    // 'style-loader', // 放入 head
-    MiniCssExtractPlugin.loader, // 打包为css文件，与style loader互斥
-    'css-loader',
-    // 'postcss-loader',
-]
+import { setNodeEnv } from '../common/utils'
 
 const prodConfig: webpack.Configuration = {
-	mode: 'production', // production 默认开启 tree-shaking
-    module: {
-	    rules: [
-            {
-                test: /.css$/,
-                use: [
-                    ...LOADESR_CSS,
-                ],
-            },
-            {
-                test: /.less$/,
-                use: [
-                    ...LOADESR_CSS,
-                    'less-loader',
-                ],
-            },
-            // {
-            //     test: /.(png|jpe?g|gif|svg)(\?.*)?$/,
-            //     use: {
-            //         loader: 'file-loader',
-            //         options: {
-            //             name: '[name]_[hash:8].[ext]'
-            //         }
-            //     },
-            // },
-            // {
-            //     test: /.(woff2?|eot|ttf|otf)(\?.*)?$/,
-            //     use: {
-            //         loader: 'file-loader',
-            //         options: {
-            //             name: '[name]_[hash:8].[ext]'
-            //         }
-            //     },
-            // },
-        ]
-    },
+    mode: 'production', // production 默认开启 tree-shaking
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: '[name]_[contenthash:8].css'
-        }),
-        // 压缩
-        new OptimizeCssAssetsWebpackPlugin({
-            assetNameRegExp: /\.css$/g,
-            // cssProcessor: import('cssnano') // 预处理器
-        }),
-        // scope Hoisting webpack 4 production 下默认开启
-        // new webpack.optimize.ModuleConcatenationPlugin(),
+        new CleanWebpackPlugin(),
+        // // 压缩
+        // new OptimizeCssAssetsWebpackPlugin({
+        //     assetNameRegExp: /\.css$/g,
+        //     cssProcessor: require('cssnano') // 预处理器
+        // }),
     ],
     // webpack4 已内置
     // externals: {
@@ -86,12 +41,13 @@ const prodConfig: webpack.Configuration = {
             }
         }
     },
-    devtool: "cheap-source-map",
 }
 
 
 function build() {
-    const config = merge(baseConfig, prodConfig)
+    setNodeEnv('production')
+    const config = merge(baseConfig(), prodConfig)
+    // console.log('config :>> ', JSON.stringify(config!.module!.rules, null, 2));
     webpack(config, (err, stats) => {
         if(err) {
             console.log('webpack build error :>> ', err)
@@ -104,6 +60,7 @@ function build() {
     })
 }
 
-build()
-
-export default prodConfig
+export {
+    prodConfig,
+    build,
+}

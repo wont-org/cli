@@ -12,7 +12,7 @@
         // "allowJs": true,                       /* Allow javascript files to be compiled. */
         // "checkJs": true,                       /* Report errors in .js files. */
         // "jsx": "preserve",                     /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
-        "declaration": false,
+        "declaration": true,
         "removeComments": false,                /* Do not emit comments to output. */
         // "noEmit": true,                        /* Do not emit outputs. */
         // "importHelpers": true,                 /* Import emit helpers from 'tslib'. */
@@ -34,6 +34,10 @@
         // "noUnusedParameters": true,            /* Report errors on unused parameters. */
         // "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
         // "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
+
+        // output
+        "outDir": "es",
+        "baseUrl": ".",
 
         /* Module Resolution Options */
         "moduleResolution": "node",

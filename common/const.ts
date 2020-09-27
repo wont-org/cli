@@ -1,5 +1,8 @@
 import { join, } from 'path'
 
+// Colors
+export const GREEN = '#07c160';
+
 // root paths
 export const CWD = process.cwd();
 export const CACHE_DIR = join(__dirname, '../node_modules/.cache');

@@ -3,7 +3,6 @@ import merge from 'webpack-merge'
 import webpack from 'webpack'
 import baseConfig from './webpack.base'
 import { DIST } from '../common/const'
-import { logServerInfo } from '../common/utils'
 
 const devConfig: webpack.Configuration = {
     watch: false,
@@ -28,11 +27,9 @@ const devConfig: webpack.Configuration = {
 function dev() {
     const config = merge(baseConfig(), devConfig)
     const server = new WebpackDevServer(webpack(config), devConfig.devServer)
-    const port = devConfig!.devServer!.port || 8080
-    const host = devConfig!.devServer!.host || 'localhost'
-    server.listen(port, host, () => {
-        logServerInfo(port)
-    });
+    // const port = devConfig!.devServer!.port || 8080
+    // const host = devConfig!.devServer!.host || 'localhost'
+    // server.listen(port, host)
 }
 
 export {

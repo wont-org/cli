@@ -1,6 +1,7 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin'
 import webpack from 'webpack'
-import { entry, htmlWebpackPlugins } from '../common/utils'
+import { entry, htmlWebpackPlugins, logServerInfo } from '../common/utils'
 import { 
     SCRIPT_EXTS,
     STYLE_EXTS,
@@ -47,9 +48,6 @@ const baseConfig = () => {
         resolve: {
             extensions: [...SCRIPT_EXTS, ...STYLE_EXTS],
         },
-        plugins: [
-            ...htmlWebpackPlugins,
-        ],
         module: {
             rules: [
                 {
@@ -96,6 +94,14 @@ const baseConfig = () => {
                 },
             ]
         },
+        plugins: [
+            ...htmlWebpackPlugins,
+            new FriendlyErrorsPlugin({
+                compilationSuccessInfo: {
+                    messages: logServerInfo(8080),
+                },
+            }),
+        ],
         // devtool: isDev ? 'eval' : 'cheap-source-map',
         devtool: isDev ? 'eval' : false,
     }

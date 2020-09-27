@@ -13,9 +13,6 @@ const devConfig: webpack.Configuration = {
         poll: 1000, // 轮询是否发生变化 默认每秒1000次 也就是1ms/次
     },
 	mode: 'development',
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-    ],
     devServer: {
         open: false,
         compress: true,

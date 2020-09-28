@@ -2,16 +2,42 @@
 cli for react and vue
 
 # TODO
+## SPA
+- [ ]  empty dir src
+- [ ]  mkdir src
+- [ ]  touch main.tsx?
+- [ ]  declare.d.ts
+## MPA
+- [ ]  empty dir src
+- [ ]  mkdir src && mkdir src/demo
+- [ ]  cd src/demo && touch index.tsx? index.less? index.vue?
+- [ ]  cd src && touch declare.d.ts /// react or vue
 
-## 1. config.(js|ts|json)
-> for Multi-page application
-### MPA and SPA
-- entry or entries
+## config.(js|ts|json)
+- [ ]  gen wont.config.[js]s
+- [ ]  config document.title from 'html-webpack-plugin'
+- [ ]  gen entry or entries(MPA needs glob)
 
-### provide about NODE_ENV
-> webpack.DefinePlugin
+## framework
+- [x]  react
+- [ ]  vue
 
-### proxy dev
-> http-proxy-middleware
+## env config
+- [x]  done from dotenv
 
-## 2. SSR
+## optimize
+- [x]  externals
+
+## dev config
+- [ ]  proxy from devServer (provide webpack.js option to merge is ok)
+- [x]  port take up (portfinder)
+
+## platform
+- [ ]  mobile (mainly about rem, can work with pxtorem postcss plugins)
+- [ ]  pc
+
+## questions
+- [ ]  how to work with copy file to dest, like yeoman
+
+## SSR(finally)
+to be continue…

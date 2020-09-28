@@ -1,9 +1,9 @@
 import path from 'path'
 
 const config = {
-    tplHTML: path.join(__dirname, './public/index.html'),
+    tplHTML: path.join(process.cwd(), './public/index.html'),
     entries: {
-        index: path.join(__dirname, './src/pages/index'),
+        index: path.join(process.cwd(), './src/pages/index'),
     },
 }
 

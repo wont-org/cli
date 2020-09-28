@@ -8,8 +8,9 @@ import {
 } from './const';
 
 
-export type NodeEnv = 'production' | 'development'
+type NodeEnv = 'production' | 'development'
 
+const isDev = () => process.env.NODE_ENV === 'development'
 const { tplHTML, entries } = entryConfig
 
 function setEntry(config: object) {
@@ -19,9 +20,9 @@ function setEntry(config: object) {
     let entry = {}
     let htmlWebpackPlugins: any = []
     entriesDir.forEach(item=> {
-        console.log('item :>> ', item)
+        console.log('pages :>> ', item)
         const entryName = item.slice(item.lastIndexOf('/')+1)
-        entry[entryName] = item + '/' + entryName + '.tsx'
+        entry[entryName] = item + '/' + entryName
         // 一个页面对应一个
         htmlWebpackPlugins.push(
             new HtmlWebpackPlugin({
@@ -98,25 +99,27 @@ const { entry, htmlWebpackPlugins } = setEntry(entries)
 
 
 function setNodeEnv(value: NodeEnv) {
-    dotenv.config({
+    const { parsed={} } = dotenv.config({
         path: `.env.${value}`
     })
+    process.env = {
+        ...parsed,
+        NODE_ENV: value,
+    }
 }
 
-function logServerInfo(port: number) {
+function logServerInfo(port) {
     const local = `http://localhost:${port}/`;
     const network = `http://${address.ip()}:${port}/`;
   
-    // console.log('\n  Site running at:\n');
-    // console.log(`  ${chalk.bold('Local')}:    ${chalk.hex(GREEN)(local)} `);
-    // console.log(`  ${chalk.bold('Network')}:  ${chalk.hex(GREEN)(network)}`);
-    const result = [
-        `Site running at:\n${chalk.bold('Local')}:    ${chalk.hex(GREEN)(local)}\n${chalk.bold('Network')}:  ${chalk.hex(GREEN)(network)}`,
-    ]
-    return result
+    console.log('\n  Site running at:\n');
+    console.log(`  ${chalk.bold('Local')}:    ${chalk.hex(GREEN)(local)} `);
+    console.log(`  ${chalk.bold('Network')}:  ${chalk.hex(GREEN)(network)}`);
 }
 
 export {
+    NodeEnv,
+    isDev,
     setEntry,
     entry,
     htmlWebpackPlugins,

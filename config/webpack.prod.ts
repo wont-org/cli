@@ -11,10 +11,10 @@ const prodConfig: webpack.Configuration = {
     plugins: [
         new CleanWebpackPlugin(),
         // // 压缩
-        // new OptimizeCssAssetsWebpackPlugin({
-        //     assetNameRegExp: /\.css$/g,
-        //     cssProcessor: require('cssnano') // 预处理器
-        // }),
+        new OptimizeCssAssetsWebpackPlugin({
+            assetNameRegExp: /\.css$/g,
+            cssProcessor: require('cssnano') // 预处理器
+        }),
     ],
     // webpack4 已内置
     // externals: {

@@ -1,8 +1,10 @@
 import WebpackDevServer from 'webpack-dev-server'
 import merge from 'webpack-merge'
 import webpack from 'webpack'
+import portfinder from 'portfinder'
 import baseConfig from './webpack.base'
 import { DIST } from '../common/const'
+import { setNodeEnv, logServerInfo } from '../common/utils'
 
 const devConfig: webpack.Configuration = {
     watch: false,
@@ -20,16 +22,21 @@ const devConfig: webpack.Configuration = {
         stats: 'minimal',
         host: '127.0.0.1',
         contentBase: DIST,
-        hot: true
+        hot: true,
     },
 }
 
-function dev() {
+async function dev() {
+    setNodeEnv('development')
     const config = merge(baseConfig(), devConfig)
     const server = new WebpackDevServer(webpack(config), devConfig.devServer)
-    // const port = devConfig!.devServer!.port || 8080
-    // const host = devConfig!.devServer!.host || 'localhost'
-    // server.listen(port, host)
+    const basePort = devConfig!.devServer!.port || 8080
+    portfinder.basePort = basePort
+    const port = await portfinder.getPortPromise()
+    const host = devConfig!.devServer!.host || 'localhost'
+    server.listen(port, host, ()=> {
+        logServerInfo(port)
+    })
 }
 
 export {

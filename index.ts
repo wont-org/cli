@@ -1,16 +1,25 @@
-import { command, parse, version } from 'commander';
+#!/usr/bin/env node
+
+import { command, parse, version } from 'commander'
+import { version as pkgVersion, name } from './package.json'
 
 // commands
+import { init } from './commands/init'
 import { dev } from './commands/dev'
 import { build } from './commands/build'
-version(`wont-cli 1.0.0`)
+version(`${name} ${pkgVersion}`)
 
-command('build')
-  .description('Compile site in production mode')
-  .action(build);
+
+command('init')
+  .description('Init project config')
+  .action(init);
 
 command('dev')
   .description('Run webpack dev server')
   .action(dev);
+
+command('build')
+  .description('Compile site in production mode')
+  .action(build);
 
 parse()

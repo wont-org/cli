@@ -1,7 +1,9 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin'
 import webpack from 'webpack'
-import { entry, htmlWebpackPlugins, logServerInfo } from '../common/utils'
+import WebpackBar from 'webpackbar';
+import { entry, htmlWebpackPlugins, isDev } from '../common/utils'
+import { GREEN } from '../common/const'
 import { 
     SCRIPT_EXTS,
     STYLE_EXTS,
@@ -18,9 +20,8 @@ const CACHE_LOADER = {
 }
 
 const baseConfig = () => {
-    const isDev = process.env.NODE_ENV === 'development'
     const CSS_LOADERS = [
-        isDev ? 'style-loader' : MiniCssExtractPlugin.loader, // 打包为css文件，与style loader互斥
+        isDev() ? 'style-loader' : MiniCssExtractPlugin.loader, // 打包为css文件，与style loader互斥
         'css-loader',
         {
             loader: 'postcss-loader',
@@ -95,17 +96,19 @@ const baseConfig = () => {
             ]
         },
         plugins: [
-            ...htmlWebpackPlugins,
             new FriendlyErrorsPlugin({
-                compilationSuccessInfo: {
-                    messages: logServerInfo(8080),
-                },
+                clearConsole: false,
             }),
+            new WebpackBar({
+                name: 'Wont Cli',
+                color: GREEN,
+            }),
+            ...htmlWebpackPlugins,
         ],
-        // devtool: isDev ? 'eval' : 'cheap-source-map',
-        devtool: isDev ? 'eval' : false,
+        // devtool: isDev() ? 'eval' : 'cheap-source-map',
+        devtool: isDev() ? 'eval' : false,
     }
-    if(!isDev) {
+    if(!isDev()) {
         config!.plugins!.unshift( 
             new MiniCssExtractPlugin({
                 filename: '[name]_[contenthash:8].css'

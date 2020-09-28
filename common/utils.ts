@@ -26,6 +26,7 @@ function setEntry(config: object) {
         // 一个页面对应一个
         htmlWebpackPlugins.push(
             new HtmlWebpackPlugin({
+                title: entryName,
                 template: tplHTML,
                 filename: `${entryName}.html`,
                 // chunks主要用于多入口文件

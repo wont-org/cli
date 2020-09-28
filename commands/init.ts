@@ -1,5 +1,8 @@
+import {readFileSync, writeFileSync} from 'fs'
 import { prompt } from 'inquirer'
 import { install } from '../common/pkg'
+import { Answers } from '../types'
+import { TPL_HTML, REACT_CDN, VUE_CDN, REACT_DEPS } from './../common/const'
 
 export async function init() {
     const questions = [
@@ -10,20 +13,28 @@ export async function init() {
             choices: ['npm', 'yarn'],
             default: 'npm'
         },
-        // {
-        //     name: 'structure',
-        //     message: 'Select project structure',
-        //     type: 'list',
-        //     choices: ['SPA', 'MPA'],
-        //     default: 'SPA'
-        // },
+        // TODO
         {
-            name: 'framework',
+            name: 'xd',
             message: 'Select framework',
             type: 'list',
             choices: ['React', 'Vue'],
             default: 'React'
         },
+        {
+            name: 'mode',
+            message: 'Select project mode',
+            type: 'list',
+            choices: ['SPA', 'MPA'],
+            default: 'SPA'
+        },
+        {
+            name: 'externals',
+            message: 'use externals (script framework in CDN)',
+            type: 'confirm',
+            default: true
+        },
+        // TODO
         // {
         //     name: 'platform',
         //     message: 'Select platform build',
@@ -32,10 +43,29 @@ export async function init() {
         //     default: 'PC'
         // },
     ]
-    const answers = await prompt(questions)
-    const { manager, framework } = answers
+    const answers: Answers = await prompt(questions)
+    const { 
+        manager,
+        framework = 'React',
+        mode = 'SPA',
+        externals
+    } = answers
     console.log('answers :>> ', answers)
-    if(framework === 'React') {
-        install(manager, ['react', 'react-dom'])
+
+    // if(framework === 'React') {
+    //     install(manager, REACT_DEPS)
+    // }
+    // if(framework === 'Vue') {
+    //     install(manager, REACT_DEPS)
+    // }
+
+    if(mode === 'SPA') {
+        
+    }
+
+    if(externals) {
+        const CDN = `${framework.toUpperCase()}_CDN` 
+        const html = readFileSync(TPL_HTML)
+        writeFileSync(TPL_HTML, `${html}${CDN}`)
     }
 }

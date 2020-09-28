@@ -36,6 +36,10 @@ cli for react and vue
 - [ ]  mobile (mainly about rem, can work with pxtorem postcss plugins)
 - [ ]  pc
 
+## init dir
+- [ ] make sure dir is exit or has conflict, and resolve conflict by overwrite, both, some like git diff
+- [ ] show change file info
+
 ## questions
 - [ ]  how to work with copy file to dest, like yeoman
 

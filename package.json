@@ -1,5 +1,5 @@
 {
-  "name": "cli",
+  "name": "@wont/cli",
   "version": "1.0.0",
   "description": "cli for react and vue",
   "main": "./es/index.js",

@@ -1,17 +1,25 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import chalk from 'chalk'
+import { pathExistsSync } from 'fs-extra'
+import glob from 'glob'
 import address from 'address'
-import entryConfig from '../wont.config'
+import wontConfig from '../wont.config'
 import dotenv from 'dotenv'
-import { 
+import {
+    MPA_REACT,
+    SPA_REACT,
     GREEN,
+    DEST_HTML,
 } from './const';
-
-
-type NodeEnv = 'production' | 'development'
+import {
+    Mode,
+    NodeEnv,
+} from '../types'
 
 const isDev = () => process.env.NODE_ENV === 'development'
-const { tplHTML, entries } = entryConfig
+const mpa = glob.sync(MPA_REACT)
+const spa = glob.sync(SPA_REACT)
+const entries = wontConfig.mode as Mode === 'mpa' ? mpa : spa
 
 function setEntry(config: object) {
     // const entriesDir = glob.sync(config)
@@ -22,12 +30,13 @@ function setEntry(config: object) {
     entriesDir.forEach(item=> {
         console.log('pages :>> ', item)
         const entryName = item.slice(item.lastIndexOf('/')+1)
+        const html = item + '/' + entryName + '.html'
         entry[entryName] = item + '/' + entryName
         // 一个页面对应一个
         htmlWebpackPlugins.push(
             new HtmlWebpackPlugin({
                 title: entryName,
-                template: tplHTML,
+                template: pathExistsSync(html) ? html : DEST_HTML,
                 filename: `${entryName}.html`,
                 // chunks主要用于多入口文件
                 chunks: [entryName],

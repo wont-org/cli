@@ -16,11 +16,10 @@ export function hasYarn() {
   return hasYarnCache;
 }
 
-type Manager = 'npm' | 'yarn'
-export async function install(manager: Manager, deps: string[]) {
-  consola.info('Install Dependencies\n');
-
-  spawn(manager, ['install', ...deps, '-S'], {
-    stdio: 'inherit',
-  })
+export async function install(deps?: string[]) {
+    deps = deps || []
+    consola.info('Install Dependencies...\n');
+    spawn('npm', ['install', ...deps], {
+        stdio: 'inherit',
+    })
 }

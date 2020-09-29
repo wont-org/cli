@@ -1,21 +1,39 @@
-import {readFileSync, writeFileSync} from 'fs'
+import { join } from 'path';
+import {
+    readFileSync,
+    writeFileSync,
+    copySync,
+    existsSync,
+    emptyDir,
+    mkdirSync,
+} from 'fs-extra'
 import { prompt } from 'inquirer'
+import chalk from 'chalk'
 import { install } from '../common/pkg'
 import { Answers } from '../types'
-import { TPL_HTML, REACT_CDN, VUE_CDN, REACT_DEPS } from './../common/const'
+import { 
+    CWD,
+    TPL_HTML,
+    DEST_HTML,
+    REACT_CDN,
+    VUE_CDN,
+    REACT_DEPS,
+    TPL_PUBLIC,
+    DEST_PUBLIC,
+    TPL_REACT_SPA,
+    TPL_REACT_MPA,
+    DEST_SRC,
+    WONT_CONFIG,
+    PREFIX_SCRIPT,
+} from './../common/const'
 
 export async function init() {
+    let wontConfig = {}
+    await genTargetDir()
     const questions = [
-        {
-            name: 'manager',
-            message: 'Select package manager',
-            type: 'list',
-            choices: ['npm', 'yarn'],
-            default: 'npm'
-        },
         // TODO
         {
-            name: 'xd',
+            name: 'framework',
             message: 'Select framework',
             type: 'list',
             choices: ['React', 'Vue'],
@@ -25,8 +43,8 @@ export async function init() {
             name: 'mode',
             message: 'Select project mode',
             type: 'list',
-            choices: ['SPA', 'MPA'],
-            default: 'SPA'
+            choices: ['spa', 'mpa'],
+            default: 'mpa'
         },
         {
             name: 'externals',
@@ -44,28 +62,89 @@ export async function init() {
         // },
     ]
     const answers: Answers = await prompt(questions)
-    const { 
-        manager,
+    const {
         framework = 'React',
-        mode = 'SPA',
+        mode = 'spa',
         externals
     } = answers
     console.log('answers :>> ', answers)
+    wontConfig = {
+        ...wontConfig,
+        framework,
+        externals,
+        mode,
+    }
 
     // if(framework === 'React') {
     //     install(manager, REACT_DEPS)
     // }
-    // if(framework === 'Vue') {
-    //     install(manager, REACT_DEPS)
-    // }
-
-    if(mode === 'SPA') {
-        
-    }
-
+    writeFileSync(WONT_CONFIG, PREFIX_SCRIPT + JSON.stringify(wontConfig, null, 4))
+    copySync(TPL_PUBLIC, DEST_PUBLIC) // public
     if(externals) {
         const CDN = `${framework.toUpperCase()}_CDN` 
         const html = readFileSync(TPL_HTML)
-        writeFileSync(TPL_HTML, `${html}${CDN}`)
+        writeFileSync(DEST_HTML, `${html}${CDN}`)
     }
+
+    if(mode === 'mpa' && framework === 'React') {
+        copySync(TPL_REACT_MPA, DEST_SRC) // mpa src
+    }
+
+    const configFiles = ['.babelrc', '.browserslistrc', '.gitignore', 'package.json', 'postcss.config.js', 'wont.config.ts']
+    copyFiles(configFiles)
+
+    if(framework === 'React') {
+        install([...REACT_DEPS, '-S'])
+    }
+    install()
+
+}
+
+function copyFiles(files: string[]) {
+    files.forEach(item=> {
+        try {
+            copySync(item, CWD)
+            console.log(`\n copy ${chalk.green(item)} success!`)
+        } catch (err) {
+            console.error(err)
+        }
+    })
+}
+
+async function genTargetDir() {
+    const createQuestion = {
+        name: 'name',
+        type: 'input',
+        message: 'input your project name',
+        validate(val: string) {
+            if (/^[a-zA-Z_][0-9a-zA-Z_]*$/.test(val)) {
+                return true
+            }
+            return '项目名称，只允许输入字母、数字、下划线'
+        },
+    }
+    const { name } = await prompt(createQuestion)
+    const targetDir = join(CWD, name)
+    if(!existsSync(targetDir)) {
+        mkdirSync(targetDir)
+        process.chdir(targetDir)
+        return
+    }
+    const overwriteQuestion = {
+        name: 'overwrite',
+        message: `Target directory ${chalk.cyan(targetDir)} already exists. Are you want to overwrite ?`,
+        type: 'confirm',
+        default: true,
+    }
+    const { overwrite } = await prompt(overwriteQuestion)
+    if(!overwrite) {
+        return
+    }
+    try {
+        console.log(`\n overwrite ${chalk.cyan(targetDir)}...`)
+        emptyDir(targetDir)
+        console.log(`\n overwrite ${chalk.green('Success')}`)
+        process.chdir(targetDir)
+    } catch (err) {}
+    
 }

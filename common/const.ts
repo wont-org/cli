@@ -9,7 +9,10 @@ export const CACHE_DIR = join(CWD, 'node_modules/.cache');
 
 // config
 export const CONFIG_DIR = join(CWD, 'config')
-export const POSTCSS_CONFIG_FILE = join(CONFIG_DIR, 'postcss.config.js')
+export const POSTCSS_CONFIG_FILE = join(CWD, 'postcss.config.ts')
+export const WONT_CONFIG = join(CWD, 'wont.config.js')
+export const MPA_REACT = join(CWD, 'src/pages/**/index.tsx')
+export const SPA_REACT = join(CWD, 'src/main.tsx')
 
 // dist
 export const DIST = join(CWD, 'dist')
@@ -18,8 +21,20 @@ export const DIST = join(CWD, 'dist')
 export const SCRIPT_EXTS = ['.js', '.jsx', '.vue', '.ts', '.tsx'];
 export const STYLE_EXTS = ['.css', '.less', '.scss'];
 
-// html
-export const TPL_HTML = join(CWD, 'public/index.html')
+// js prefix
+export const PREFIX_SCRIPT = 'export default '
+
+// template
+export const TPL_DIR = join(__dirname, '../template')
+export const TPL_HTML = join(TPL_DIR, 'public/index.html')
+export const TPL_PUBLIC = join(TPL_DIR, 'public')
+export const TPL_REACT_SPA = join(TPL_DIR, 'spa-react/src')
+export const TPL_REACT_MPA = join(TPL_DIR, 'mpa-react/src')
+
+// dest
+export const DEST_PUBLIC = join(CWD, 'public')
+export const DEST_HTML = join(DEST_PUBLIC, 'index.html')
+export const DEST_SRC = join(CWD, 'src')
 
 // script
 export const REACT_CDN = `

@@ -2,9 +2,9 @@
   "name": "@wont/cli",
   "version": "1.0.0",
   "description": "cli for react and vue",
-  "main": "./es/index.js",
+  "main": "lib/index.js",
   "bin": {
-    "wont-cli": "./es/index.js"
+    "wont-cli": "lib/index.js"
   },
   "scripts": {
     "dev": "ts-node index.ts dev",
@@ -48,6 +48,7 @@
     "dotenv": "^8.2.0",
     "file-loader": "^6.1.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
+    "fs-extra": "^9.0.1",
     "html-webpack-plugin": "^4.5.0",
     "inquirer": "^7.3.3",
     "less": "^3.12.2",

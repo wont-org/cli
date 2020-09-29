@@ -5,48 +5,54 @@ import OptimizeCssAssetsWebpackPlugin from 'optimize-css-assets-webpack-plugin'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import baseConfig from './webpack.base'
 import { setNodeEnv } from '../common/utils'
+import wontConfig from '../wont.config'
 
-const prodConfig: webpack.Configuration = {
-    mode: 'production', // production 默认开启 tree-shaking
-    plugins: [
-        new CleanWebpackPlugin(),
-        // // 压缩
-        new OptimizeCssAssetsWebpackPlugin({
-            assetNameRegExp: /\.css$/g,
-            cssProcessor: require('cssnano') // 预处理器
-        }),
-    ],
-    // webpack4 已内置
-    // externals: {
-    //     'react': 'react',
-    //     'react-dom': 'react-dom',
-    // },
-    optimization: {
-        // 分包
-        splitChunks: {
-            minSize: 0, // 引用包大小
-            cacheGroups: {
-                React: {
-                    test: /react/,
-                    name: 'react-vendors',
-                    chunks: "all",
-                    minChunks: 1,
-                },
-                ReactDom: {
-                    test: /react-dom/,
-                    name: 'react-dom-vendors',
-                    chunks: "all",
-                    minChunks: 1,
-                },
+const prodConfig = () => {
+    const config: webpack.Configuration = {
+        mode: 'production', // production 默认开启 tree-shaking
+        plugins: [
+            new CleanWebpackPlugin(),
+            // // 压缩
+            new OptimizeCssAssetsWebpackPlugin({
+                assetNameRegExp: /\.css$/g,
+                cssProcessor: require('cssnano') // 预处理器
+            }),
+        ],
+    }
+    if (wontConfig.externals) {
+        config.externals = {
+            'react': 'react',
+            'react-dom': 'react-dom',
+        }
+    } else {
+        config.optimization = {
+            // 分包
+            splitChunks: {
+                minSize: 0, // 引用包大小
+                cacheGroups: {
+                    React: {
+                        test: /react/,
+                        name: 'react-vendors',
+                        chunks: "all",
+                        minChunks: 1,
+                    },
+                    ReactDom: {
+                        test: /react-dom/,
+                        name: 'react-dom-vendors',
+                        chunks: "all",
+                        minChunks: 1,
+                    },
+                }
             }
         }
-    },
+    }
+    return config
 }
 
 
 function build() {
     setNodeEnv('production')
-    const config = merge(baseConfig(), prodConfig)
+    const config = merge(baseConfig(), prodConfig())
     // console.log('config :>> ', JSON.stringify(config!.module!.rules, null, 2));
     webpack(config, (err, stats) => {
         if(err) {

@@ -1,11 +1,10 @@
 
-export type Mode = 'SPA' | 'MPA'
+export type Mode = 'spa' | 'mpa'
 export type Framework = 'React' | 'Vue'
-export type Framework = 'npm' | 'yarn'
 export type Platform = 'PC' | 'Mobile'
+export type NodeEnv = 'production' | 'development'
 export interface Answers {
-    manager: Manger
-    mode: Mode
+    mode?: Mode
     framework?: Framework
     externals: boolean
     platform?: Platform

@@ -51,12 +51,12 @@ export async function init() {
         //     choices: ['spa', 'mpa'],
         //     default: 'mpa'
         // },
-        {
-            name: 'externals',
-            message: 'use externals (script framework in CDN)',
-            type: 'confirm',
-            default: true
-        },
+        // {
+        //     name: 'externals',
+        //     message: 'use externals (script framework in CDN)',
+        //     type: 'confirm',
+        //     default: true
+        // },
         // TODO
         // {
         //     name: 'platform',
@@ -70,7 +70,7 @@ export async function init() {
     const {
         framework = 'React',
         mode = 'mpa',
-        externals
+        externals = false,
     } = answers
     console.log('answers :>> ', answers)
     wontConfig = {
@@ -99,7 +99,7 @@ export async function init() {
         }
     }
 
-    const configFiles = ['.babelrc', '.browserslistrc', '.gitignore', 'package.json', 'postcss.config.js', 'wont.config.ts']
+    const configFiles = ['.babelrc', '.browserslistrc', '.gitignore', 'package.json', 'postcss.config.js', 'wont.config.ts', '.env.development', '.env.production']
     copyFiles(configFiles)
 
     process.chdir(targetDir)

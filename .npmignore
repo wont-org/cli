@@ -3,3 +3,5 @@ common
 compiler
 config
 index.ts
+dist
+package-lock.json

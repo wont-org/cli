@@ -17,6 +17,9 @@
     "type": "git",
     "url": "git+https://github.com/wont-org/cli.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

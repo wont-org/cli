@@ -113,9 +113,14 @@ const { entry, htmlWebpackPlugins } = setEntry(entries)
 
 
 function setNodeEnv(value: NodeEnv) {
-    const { parsed={} } = dotenv.config({
-        path: `.env.${value}`
-    })
+    const path = `.env.${value}`
+    let parsed = {}
+    if(pathExistsSync(path)) {
+        const config = dotenv.config({
+            path: `.env.${value}`
+        })
+        parsed = config.parsed || {}
+    }
     process.env = {
         ...parsed,
         NODE_ENV: value,

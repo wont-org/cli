@@ -1,15 +1,16 @@
 {
   "name": "@wont/cli",
-  "version": "1.0.0",
+  "version": "0.0.1-alpha.1",
   "description": "cli for react and vue",
   "main": "lib/index.js",
   "bin": {
     "wont-cli": "lib/index.js"
   },
   "scripts": {
-    "dev": "ts-node index.ts dev",
-    "build": "ts-node index.ts build",
-    "t": "wont-cli build",
+    "dev": "wont-cli dev",
+    "dd": "ts-node index.ts dev",
+    "build": "wont-cli build",
+    "bb": "ts-node index.ts build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -67,9 +68,5 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.1.4",
     "webpackbar": "^4.0.0"
-  },
-  "dependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
   }
 }

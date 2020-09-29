@@ -16,9 +16,9 @@ export function hasYarn() {
   return hasYarnCache;
 }
 
-export async function install(deps?: string[]) {
+export function install(deps?: string[]) {
     deps = deps || []
-    consola.info('Install Dependencies...\n');
+    consola.info('Install Dependencies...\n', deps);
     spawn('npm', ['install', ...deps], {
         stdio: 'inherit',
     })

@@ -1,5 +1,5 @@
 export default {
     "framework": "React",
     "externals": true,
-    "mode": "spa"
+    "mode": "mpa"
 }

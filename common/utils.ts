@@ -2,6 +2,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import chalk from 'chalk'
 import { pathExistsSync } from 'fs-extra'
 import glob from 'glob'
+import { basename, dirname } from 'path'
 import address from 'address'
 import wontConfig from '../wont.config'
 import dotenv from 'dotenv'
@@ -21,6 +22,10 @@ const mpa = glob.sync(MPA_REACT)
 const spa = glob.sync(SPA_REACT)
 const entries = wontConfig.mode as Mode === 'mpa' ? mpa : spa
 
+function getDirName(pathStr: string) {
+    return basename(dirname(pathStr))
+}
+
 function setEntry(config: object) {
     // const entriesDir = glob.sync(config)
     const entriesDir = Object.values(config)
@@ -29,14 +34,13 @@ function setEntry(config: object) {
     let htmlWebpackPlugins: any = []
     entriesDir.forEach(item=> {
         console.log('pages :>> ', item)
-        const entryName = item.slice(item.lastIndexOf('/')+1)
-        const html = item + '/' + entryName + '.html'
-        entry[entryName] = item + '/' + entryName
+        const entryName = getDirName(item)
+        entry[entryName] = item
         // 一个页面对应一个
         htmlWebpackPlugins.push(
             new HtmlWebpackPlugin({
                 title: entryName,
-                template: pathExistsSync(html) ? html : DEST_HTML,
+                template: DEST_HTML,
                 filename: `${entryName}.html`,
                 // chunks主要用于多入口文件
                 chunks: [entryName],

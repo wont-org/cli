@@ -9,6 +9,8 @@ import {
     emptyDir,
     mkdirSync,
     removeSync,
+    readJsonSync,
+    writeJsonSync,
 } from 'fs-extra'
 import { prompt } from 'inquirer'
 import chalk from 'chalk'
@@ -37,13 +39,13 @@ export async function init() {
     await genTargetDir()
     const questions = [
         // TODO
-        {
-            name: 'framework',
-            message: 'Select framework',
-            type: 'list',
-            choices: ['React', 'Vue'],
-            default: 'React'
-        },
+        // {
+        //     name: 'framework',
+        //     message: 'Select framework',
+        //     type: 'list',
+        //     choices: ['React', 'Vue'],
+        //     default: 'React'
+        // },
         // {
         //     name: 'mode',
         //     message: 'Select project mode',
@@ -99,16 +101,24 @@ export async function init() {
         }
     }
 
-    const configFiles = ['.babelrc', '.browserslistrc', '.gitignore', 'package.json', 'postcss.config.js', 'wont.config.ts', '.env.development', '.env.production']
+    const configFiles = ['.babelrc', '.browserslistrc', 'postcss.config.js', 'wont.config.ts', '.env.development', '.env.production']
     copyFiles(configFiles)
 
     process.chdir(targetDir)
-    // execSync('npm init -y')
+    execSync('npm init -y')
+    const path = process.cwd() + '/package.json'
+    const pkg = readJsonSync(path)
+    const scripts = {
+        "dev": "wont-cli dev",
+        "build": "wont-cli build",
+    }
+    pkg.scripts = scripts
+    writeJsonSync(path, pkg)
     if(framework === 'React') {
         execSync(`npm i ${REACT_DEPS.join(' ')} -S`)
         // install([...REACT_DEPS, '-S'])
     }
-    execSync('npm install')
+    execSync('npm install @wont/cli@latest -D')
     // install()
     consola.success(`Successfully created ${chalk.yellow(projectName)}.`);
     consola.success(

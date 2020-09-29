@@ -1,6 +1,6 @@
 {
   "name": "@wont/cli",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.9",
   "description": "cli for react and vue",
   "main": "lib/index.js",
   "bin": {
@@ -27,7 +27,7 @@
     "url": "https://github.com/wont-org/cli/issues"
   },
   "homepage": "https://github.com/wont-org/cli#readme",
-  "devDependencies": {
+  "dependencies": {
     "@babel/cli": "^7.11.6",
     "@babel/core": "^7.11.6",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",

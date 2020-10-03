@@ -2,12 +2,9 @@ import consola from 'consola'
 import { join } from 'path'
 import { execSync } from 'child_process'
 import {
-    readFileSync,
     writeFileSync,
     copySync,
     existsSync,
-    emptyDir,
-    mkdirSync,
     removeSync,
     readJsonSync,
     writeJsonSync,
@@ -18,17 +15,11 @@ import { install } from '../common/pkg'
 import { Answers } from '../types'
 import { 
     CWD,
-    TPL_HTML,
-    DEST_HTML,
-    REACT_CDN,
-    VUE_CDN,
     REACT_DEPS,
     TPL_PUBLIC,
-    DEST_PUBLIC,
-    TPL_REACT_SPA,
+    TPL_GITIGNORE,
     TPL_REACT_MPA,
-    DEST_SRC,
-    PREFIX_SCRIPT,
+    EXPORT_LIB,
 } from './../common/const'
 
 let targetDir = ''
@@ -53,12 +44,12 @@ export async function init() {
         //     choices: ['spa', 'mpa'],
         //     default: 'mpa'
         // },
-        // {
-        //     name: 'externals',
-        //     message: 'use externals (script framework in CDN)',
-        //     type: 'confirm',
-        //     default: true
-        // },
+        {
+            name: 'externals',
+            message: 'use externals (script framework in CDN)',
+            type: 'confirm',
+            default: true
+        },
         // TODO
         // {
         //     name: 'platform',
@@ -84,13 +75,9 @@ export async function init() {
 
     try {
         copySync(TPL_PUBLIC, `${targetDir}/public`) // public
+        copySync(TPL_GITIGNORE, `${targetDir}/.gitignore`)
     } catch (error) {
         throw(error)
-    }
-    if(externals) {
-        const CDN = framework === 'React' ? REACT_CDN : VUE_CDN 
-        const html = readFileSync(TPL_HTML)
-        writeFileSync(`${targetDir}/public/index.html`, `${html}${CDN}`)
     }
 
     if(mode === 'mpa' && framework === 'React') {
@@ -101,10 +88,12 @@ export async function init() {
         }
     }
 
-    const configFiles = ['.babelrc', '.browserslistrc', 'postcss.config.js', 'wont.config.ts', '.env.development', '.env.production']
+    const configFiles = ['.babelrc', '.browserslistrc', 'postcss.config.js', '.env.development', '.env.production']
     copyFiles(configFiles)
 
     process.chdir(targetDir)
+    writeFileSync(join(targetDir, 'wont.config.js'), EXPORT_LIB + JSON.stringify(wontConfig, null, 4))
+
     execSync('npm init -y')
     const path = process.cwd() + '/package.json'
     const pkg = readJsonSync(path)
@@ -115,11 +104,9 @@ export async function init() {
     pkg.scripts = scripts
     writeJsonSync(path, pkg)
     if(framework === 'React') {
-        execSync(`npm i ${REACT_DEPS.join(' ')} -S`)
-        // install([...REACT_DEPS, '-S'])
+        install([...REACT_DEPS, '-S'])
     }
-    execSync('npm install @wont/cli@latest -D')
-    // install()
+    install(['@wont/cli@latest', '-D'])
     consola.success(`Successfully created ${chalk.yellow(projectName)}.`);
     consola.success(
       `Run ${chalk.yellow(`cd ${projectName} && npm run dev`)} to start development!`
@@ -129,11 +116,11 @@ export async function init() {
 function copyFiles(files: string[]) {
     files.forEach(item=> {
         try {
-            console.log('pwd :>> ',join(__dirname, `../../${item}`), targetDir)
+            // console.log('pwd :>> ',join(__dirname, `../../${item}`), targetDir)
             copySync(join(__dirname, `../../${item}`), `${targetDir}/${item}`)
-            // console.log(`\n copy ${chalk.green(item)} success!`)
+            console.log(`\n copy ${chalk.green(item)} success!`)
         } catch (err) {
-            console.error(`copy ${item} error`, err)
+            console.log(`\n copy ${chalk.red(item)} error!`)
             process.exit(1)
         }
     })
@@ -172,6 +159,7 @@ async function genTargetDir() {
         removeSync(targetDir)
         console.log(`\n remove ${chalk.green('Success')}`)
     } catch (err) {
+        console.log(`\n remove ${chalk.red(projectName)} error!`)
         throw(err)
     }
     

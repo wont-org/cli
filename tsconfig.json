@@ -5,11 +5,10 @@
         "compiler/*.ts",
         "config/*.ts",
         "index.ts",
-        "wont.config.ts",
+        "types",
     ],
     "exclude": [
         "node_modules",
-        "types",
     ],
     "compilerOptions": {
         "resolveJsonModule": true, // 允许引入json

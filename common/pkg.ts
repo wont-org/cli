@@ -1,5 +1,5 @@
 import consola from 'consola'
-import { execSync, spawn } from 'child_process'
+import { execSync, spawnSync } from 'child_process'
 
 let hasYarnCache: boolean;
 
@@ -18,8 +18,8 @@ export function hasYarn() {
 
 export function install(deps?: string[]) {
     deps = deps || []
-    consola.info('Install Dependencies...\n', deps);
-    spawn('npm', ['install', ...deps], {
+    consola.info('\n Install Dependencies', ...deps);
+    spawnSync('npm', ['install', ...deps], {
         stdio: 'inherit',
     })
 }

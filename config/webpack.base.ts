@@ -2,7 +2,8 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin'
 import webpack from 'webpack'
 import WebpackBar from 'webpackbar';
-import { entry, htmlWebpackPlugins, isDev } from '../common/utils'
+import { getEntry, isDev } from '../common/utils'
+const { entry, htmlWebpackPlugins } = getEntry()
 import { GREEN } from '../common/const'
 import { 
     SCRIPT_EXTS,
@@ -18,7 +19,6 @@ const CACHE_LOADER = {
       cacheDirectory: CACHE_DIR,
     },
 }
-
 const baseConfig = () => {
     const CSS_LOADERS = [
         isDev() ? 'style-loader' : MiniCssExtractPlugin.loader, // 打包为css文件，与style loader互斥

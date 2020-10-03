@@ -12,6 +12,7 @@ export const CONFIG_DIR = join(CWD, 'config')
 export const POSTCSS_CONFIG_FILE = join(CWD, 'postcss.config.js')
 export const MPA_REACT = join(CWD, 'src/pages/**/index.tsx')
 export const SPA_REACT = join(CWD, 'src/main.tsx')
+export const WONT_CONFIG = `${process.cwd()}/wont.config.js`
 
 // dist
 export const DIST = join(CWD, 'dist')
@@ -20,13 +21,15 @@ export const DIST = join(CWD, 'dist')
 export const SCRIPT_EXTS = ['.js', '.jsx', '.vue', '.ts', '.tsx'];
 export const STYLE_EXTS = ['.css', '.less', '.scss'];
 
-// js prefix
-export const PREFIX_SCRIPT = 'export default '
+// export script
+export const EXPORT_ES = 'export default '
+export const EXPORT_LIB = 'module.exports = '
 
 // template
 export const TPL_DIR = join(__dirname, '../../template')
 export const TPL_HTML = join(TPL_DIR, 'public/index.html')
 export const TPL_PUBLIC = join(TPL_DIR, 'public')
+export const TPL_GITIGNORE = join(TPL_DIR, '.gitignore')
 export const TPL_REACT_SPA = join(TPL_DIR, 'spa-react/src')
 export const TPL_REACT_MPA = join(TPL_DIR, 'mpa-react/src')
 

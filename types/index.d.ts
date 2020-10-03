@@ -6,6 +6,6 @@ export type NodeEnv = 'production' | 'development'
 export interface Answers {
     mode?: Mode
     framework?: Framework
-    externals: boolean
+    externals?: boolean
     platform?: Platform
 }

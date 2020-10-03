@@ -1,11 +1,11 @@
 import merge from 'webpack-merge'
 import webpack from 'webpack'
 import OptimizeCssAssetsWebpackPlugin from 'optimize-css-assets-webpack-plugin'
-// import HtmlWebpackExternalsPlugin from 'html-webpack-externals-plugin'
+import { pathExistsSync } from 'fs-extra'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import baseConfig from './webpack.base'
 import { setNodeEnv } from '../common/utils'
-import wontConfig from '../wont.config'
+import { Answers } from './../types/index.d'
 
 const prodConfig = () => {
     const config: webpack.Configuration = {
@@ -19,10 +19,16 @@ const prodConfig = () => {
             }),
         ],
     }
-    if (wontConfig.externals) {
+    const configFile = `${process.cwd()}/wont.config.js`
+    let wontConfig: Answers = {}
+    if(pathExistsSync(configFile)) {
+        wontConfig = require(configFile)
+    }
+    const { externals } = wontConfig
+    if (externals) {
         config.externals = {
-            'react': 'react',
-            'react-dom': 'react-dom',
+            'react': 'React',
+            'react-dom': 'ReactDOM',
         }
     } else {
         config.optimization = {

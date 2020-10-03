@@ -1,12 +1,14 @@
 {
   "name": "@wont/cli",
-  "version": "0.0.1-alpha.11",
+  "version": "0.0.1-alpha.12",
   "description": "cli for react and vue",
   "main": "lib/index.js",
   "bin": {
     "wont-cli": "lib/index.js"
   },
   "scripts": {
+    "prepublish": "rm -rf lib && tsc",
+    "publish": "npm publish",
     "dev": "wont-cli dev",
     "dd": "ts-node index.ts dev",
     "build": "wont-cli build",

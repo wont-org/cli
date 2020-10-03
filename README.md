@@ -1,47 +1,56 @@
-# cli
-cli for react and vue
+## Install
 
-# TODO
-## SPA
-- [ ]  empty dir src
-- [ ]  mkdir src
-- [ ]  touch main.tsx?
-- [ ]  declare.d.ts
-## MPA
-- [ ]  empty dir src
-- [ ]  mkdir src && mkdir src/demo
-- [ ]  cd src/demo && touch index.tsx? index.less? index.vue?
-- [ ]  cd src && touch declare.d.ts /// react or vue
+全局安装
+```bash
+npm i @wont/cli -g
+```
 
-## config.(js|ts|json)
-- [ ]  gen wont.config.[js]
-- [ ]  config document.title from 'html-webpack-plugin'
-- [ ]  gen entry or entries(MPA needs glob)
+## Usage
 
-## framework
-- [x]  react
-- [ ]  vue
+### 初始化项目
+- 执行init后，根据cli提示输入项目名称，cli会自动生成对应项目，并装好相关依赖
+```bash
+wont-cli init
+```
+- **React、多页面、使用externals**生成目录结构如下
+```bash
+├── dist # build产物
+│   ├── index.html
+│   ├── index.js
+│   └── index_0905e159.css
+├── package-lock.json
+├── package.json # 已在script上添加dev和build
+├── postcss.config.js # 可在基础上添加postcss功能
+├── public
+│   └── index.html
+├── src
+│   └── pages
+│       └── index
+│           ├── index.less
+│           └── index.tsx
+└── wont.config.js # 配置文件
+```
 
-## env config
-- [x]  done from dotenv
+- `wont.config.js`，相关配置均在此处，可更改选项，重新`dev`或`build`即可
+目前支持配置如下
+```js
+module.exports = {
+    "framework": "React", // 必选 React-默认 Vue-暂未支持
+    "externals": true, // 是否启用script cdn接入 默认-true
+    "mode": "mpa" // 必选，mpa-多页面（默认） spa-单页面（暂未支持）
+}
+```
 
-## optimize
-- [x]  externals
+### 本地开发
+```bash
+wont-cli dev
+```
 
-## dev config
-- [ ]  proxy from devServer (provide webpack.js option to merge is ok)
-- [x]  port take up (portfinder)
+### 打包
+```bash
+wont-cli build
+```
 
-## platform
-- [ ]  mobile (mainly about rem, can work with pxtorem postcss plugins)
-- [ ]  pc
+## LICENSE
 
-## init dir
-- [ ] make sure dir is exit or has conflict, and resolve conflict by overwrite, both, some like git diff
-- [ ] show change file info
-
-## questions
-- [ ]  how to work with copy file to dest, like yeoman
-
-## SSR(finally)
-to be continue…
+[MIT](https://en.wikipedia.org/wiki/MIT_License)

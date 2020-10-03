@@ -1,6 +1,6 @@
 {
   "name": "@wont/cli",
-  "version": "0.0.1-alpha.13",
+  "version": "0.0.1-alpha.10",
   "description": "cli for react and vue",
   "main": "lib/index.js",
   "bin": {
@@ -12,7 +12,7 @@
     "types"
   ],
   "scripts": {
-    "prepublish": "rm -rf lib && tsc",
+    "prepublishOnly": "rm -rf lib && tsc",
     "publish": "npm publish",
     "dev": "wont-cli dev",
     "dd": "ts-node index.ts dev",
@@ -27,7 +27,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [],
+  "keywords": [
+    "wont",
+    "cli",
+    "wont/cli",
+    "@wont/cli"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {

@@ -4,7 +4,11 @@ import webpack from 'webpack'
 import WebpackBar from 'webpackbar';
 import { getEntry, isDev } from '../common/utils'
 const { entry, htmlWebpackPlugins } = getEntry()
-import { GREEN } from '../common/const'
+import { 
+    GREEN,
+    CWD,
+    CONFIG_BABEL,
+} from '../common/const'
 import { 
     SCRIPT_EXTS,
     STYLE_EXTS,
@@ -55,7 +59,10 @@ const baseConfig = () => {
                     test: /.[jt]sx?$/,
                     use: [
                         CACHE_LOADER,
-                        'babel-loader',
+                        {
+                            loader: 'babel-loader',
+                            options: require(CONFIG_BABEL),
+                        },
                         // 'eslint-loader',
                     ]
                 },

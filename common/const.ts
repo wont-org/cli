@@ -12,7 +12,8 @@ export const CONFIG_DIR = join(CWD, 'config')
 export const POSTCSS_CONFIG_FILE = join(CWD, 'postcss.config.js')
 export const MPA_REACT = join(CWD, 'src/pages/**/index.tsx')
 export const SPA_REACT = join(CWD, 'src/main.tsx')
-export const WONT_CONFIG = `${process.cwd()}/wont.config.js`
+export const CONFIG_WONT = join(CWD, 'wont.config.js')
+export const CONFIG_BABEL = join(__dirname, '../config/babel.config.js')
 
 // dist
 export const DIST = join(CWD, 'dist')

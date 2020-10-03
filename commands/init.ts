@@ -26,8 +26,12 @@ let targetDir = ''
 let projectName = ''
 
 export async function init() {
-    let wontConfig = {}
     await genTargetDir()
+    await genProject()
+}
+
+async function genProject() {
+    let wontConfig = {}
     const questions = [
         // TODO
         // {
@@ -88,7 +92,9 @@ export async function init() {
         }
     }
 
-    const configFiles = ['.babelrc', '.browserslistrc', 'postcss.config.js', '.env.development', '.env.production']
+    const configFiles = [
+        // 'babel.config.js',
+        '.browserslistrc', 'postcss.config.js', '.env.development', '.env.production']
     copyFiles(configFiles)
 
     process.chdir(targetDir)
@@ -107,10 +113,10 @@ export async function init() {
         install([...REACT_DEPS, '-S'])
     }
     install(['@wont/cli@latest', '-D'])
-    consola.success(`Successfully created ${chalk.yellow(projectName)}.`);
+    consola.success(`Successfully created ${chalk.yellow(projectName)}`);
     consola.success(
       `Run ${chalk.yellow(`cd ${projectName} && npm run dev`)} to start development!`
-    );
+    )
 }
 
 function copyFiles(files: string[]) {
@@ -132,10 +138,16 @@ async function genTargetDir() {
         type: 'input',
         message: 'input your project name',
         validate(val: string) {
-            if (/^[a-zA-Z_][0-9a-zA-Z_]*$/.test(val)) {
-                return true
+            if(!/^[a-zA-Z_]/.test(val)) {
+                return '项目名称，只能以下划线，字母开头'
             }
-            return '项目名称，只允许输入字母、数字、下划线'
+            if(!/[a-zA-Z_]$/.test(val)) {
+                return '项目名称，只能以下划线，字母结尾'
+            }
+            if (/[^A-Za-z0-9_-]/.test(val)) {
+                return '项目名称，只允许输入字母、数字、下划线、连字符'
+            }
+            return true
         },
     }
     const { name } = await prompt(createQuestion)

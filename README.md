@@ -14,7 +14,7 @@ cli for react and vue
 - [ ]  cd src && touch declare.d.ts /// react or vue
 
 ## config.(js|ts|json)
-- [ ]  gen wont.config.[js]s
+- [ ]  gen wont.config.[js]
 - [ ]  config document.title from 'html-webpack-plugin'
 - [ ]  gen entry or entries(MPA needs glob)
 

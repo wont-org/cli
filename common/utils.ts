@@ -14,7 +14,7 @@ import {
     DEST_HTML,
     REACT_CDN,
     VUE_CDN,
-    WONT_CONFIG,
+    CONFIG_WONT,
 } from './const';
 import {
     NodeEnv,
@@ -88,8 +88,8 @@ function getHtmlConfig(entryName: string) {
         }
     }
     let wontConfig: Answers = {}
-    if(pathExistsSync(WONT_CONFIG)) {
-        wontConfig = require(WONT_CONFIG)
+    if(pathExistsSync(CONFIG_WONT)) {
+        wontConfig = require(CONFIG_WONT)
     }
     const {
         externals = false,
@@ -112,8 +112,8 @@ function getHtmlConfig(entryName: string) {
 }
 function getEntry() {
     let wontConfig: Answers = {}
-    if(pathExistsSync(WONT_CONFIG)) {
-        wontConfig = require(WONT_CONFIG)
+    if(pathExistsSync(CONFIG_WONT)) {
+        wontConfig = require(CONFIG_WONT)
     }
     const { mode } = wontConfig
     if(mode === 'spa') {

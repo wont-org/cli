@@ -1,7 +1,0 @@
-commands/*.ts
-common/*.ts
-compiler/*.ts
-config/*.ts
-index.ts
-dist
-package-lock.json

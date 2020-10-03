@@ -6,14 +6,8 @@
   "bin": {
     "wont-cli": "lib/index.js"
   },
-  "files": [
-    "lib",
-    "template",
-    "types"
-  ],
   "scripts": {
     "prepublishOnly": "rm -rf lib && tsc",
-    "publish": "npm publish",
     "dev": "wont-cli dev",
     "dd": "ts-node index.ts dev",
     "build": "wont-cli build",
@@ -33,8 +27,11 @@
     "wont/cli",
     "@wont/cli"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "liukun",
+    "email": "919590347@qq.com"
+  },
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/wont-org/cli/issues"
   },

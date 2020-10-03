@@ -1,0 +1,5 @@
+*.ts
+dist
+package-lock.json
+tsconfig.json
+*.lock

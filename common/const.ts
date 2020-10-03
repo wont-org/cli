@@ -29,7 +29,7 @@ export const EXPORT_LIB = 'module.exports = '
 export const TPL_DIR = join(__dirname, '../../template')
 export const TPL_HTML = join(TPL_DIR, 'public/index.html')
 export const TPL_PUBLIC = join(TPL_DIR, 'public')
-export const TPL_GITIGNORE = join(TPL_DIR, '.gitignore')
+export const TPL_GITIGNORE = join(TPL_DIR, '.gitignore.tpl')
 export const TPL_REACT_SPA = join(TPL_DIR, 'spa-react/src')
 export const TPL_REACT_MPA = join(TPL_DIR, 'mpa-react/src')
 

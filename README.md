@@ -53,4 +53,4 @@ wont-cli build
 
 ## LICENSE
 
-[MIT](https://en.wikipedia.org/wiki/MIT_License)
+[MIT](./LICENSE)

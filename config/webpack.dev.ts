@@ -3,7 +3,6 @@ import merge from 'webpack-merge'
 import webpack from 'webpack'
 import portfinder from 'portfinder'
 import baseConfig from './webpack.base'
-import { DIST } from '../common/const'
 import { setNodeEnv, logServerInfo } from '../common/utils'
 
 const devConfig: webpack.Configuration = {
@@ -21,7 +20,8 @@ const devConfig: webpack.Configuration = {
         // quiet: true,
         stats: 'minimal',
         host: '127.0.0.1',
-        contentBase: DIST,
+        contentBase: false,
+        publicPath: '/',
         hot: true,
     },
 }

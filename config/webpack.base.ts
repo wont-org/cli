@@ -55,7 +55,8 @@ const baseConfig = () => {
          */
         output: {
             path: DIST,
-            filename: '[name].js'
+            filename: '[name].js',
+            // chunkFilename: '[name].js',
         },
         resolve: {
             extensions: [...SCRIPT_EXTS, ...STYLE_EXTS],

@@ -14,6 +14,7 @@ import {
     GREEN,
     DEST_HTML,
     REACT_CDN,
+    REACT_ROUTER_DOM,
     VUE_CDN,
     CONFIG_WONT,
 } from './const';
@@ -95,12 +96,14 @@ function getHtmlConfig(entryName: string) {
     const {
         externals = false,
         framework = '',
+        mode = '',
     } = wontConfig
 
     if(externals) {
         if(framework === 'React') {
-            params.templateParameters = {
-                framework: REACT_CDN,
+            params.templateParameters.framework = REACT_CDN
+            if(mode === 'spa') {
+                params.templateParameters.framework = REACT_CDN + REACT_ROUTER_DOM
             }
         }
         if(framework === 'Vue') {

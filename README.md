@@ -12,7 +12,7 @@ npm i @wont/cli -g
 ```bash
 wont-cli init
 ```
-- **React、多页面、使用externals**生成目录结构如下
+- **React、单页面、使用externals**生成目录结构如下
 ```bash
 ├── dist # build产物
 │   ├── index.html
@@ -31,13 +31,15 @@ wont-cli init
 └── wont.config.js # 配置文件
 ```
 
+- **React、多页面、使用externals**生成目录结构如下
+
 - `wont.config.js`，相关配置均在此处，可更改选项，重新`dev`或`build`即可
 目前支持配置如下
 ```js
 module.exports = {
     "framework": "React", // 必选 React-默认 Vue-暂未支持
     "externals": true, // 是否启用script cdn接入 默认-true
-    "mode": "mpa" // 必选，mpa-多页面（默认） spa-单页面（暂未支持）
+    "mode": "mpa" // 必选，spa-单页面（默认） mpa-多页面 
 }
 ```
 

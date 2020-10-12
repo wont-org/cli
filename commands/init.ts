@@ -48,7 +48,7 @@ async function genProject() {
             message: 'Select project mode',
             type: 'list',
             choices: ['spa', 'mpa'],
-            default: 'mpa'
+            default: 'spa'
         },
         {
             name: 'externals',
@@ -68,7 +68,7 @@ async function genProject() {
     const answers: Answers = await prompt(questions)
     const {
         framework = 'React',
-        mode = 'mpa',
+        mode = 'spa',
         externals = false,
     } = answers
     console.log('answers :>> ', answers)

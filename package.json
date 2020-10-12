@@ -1,6 +1,6 @@
 {
   "name": "@wont/cli",
-  "version": "0.0.1-beta.1",
+  "version": "0.0.1-beta.2",
   "description": "cli for react and vue",
   "main": "lib/index.js",
   "bin": {

@@ -49,6 +49,10 @@ export const REACT_CDN = `
 <script src="https://cdn.bootcdn.net/ajax/libs/react/16.9.0/umd/react.production.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/react-dom/16.9.0/umd/react-dom.production.min.js"></script>
 `
+export const REACT_ROUTER_DOM = `
+<script src="https://cdn.bootcdn.net/ajax/libs/react-router-dom/5.2.0/react-router-dom.min.js"></script>
+`
+
 export const VUE_CDN = `
 <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.runtime.common.min.js"></script>
 `

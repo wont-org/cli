@@ -109,8 +109,11 @@ async function genProject() {
     }
 
     const configFiles = [
-        // 'babel.config.js',
-        '.browserslistrc', 'postcss.config.js', '.env.development', '.env.production']
+        '.browserslistrc',
+        'postcss.config.js',
+        '.env.development',
+        '.env.production',
+    ]
     copyFiles(configFiles)
 
     process.chdir(targetDir)
@@ -132,7 +135,7 @@ async function genProject() {
         }
         install(deps)
     }
-    // install(['@wont/cli@latest', '-D'])
+    install(['@wont/cli@latest', '-D'])
     consola.success(`Successfully created ${chalk.yellow(projectName)}`);
     consola.success(
       `Run ${chalk.yellow(`cd ${projectName} && npm run dev`)} to start development!`

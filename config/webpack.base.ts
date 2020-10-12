@@ -26,16 +26,15 @@ const baseConfig = () => {
     const { entry, htmlWebpackPlugins } = getEntry()
     const CSS_LOADERS = [
         isDev() ? 'style-loader' : MiniCssExtractPlugin.loader, // 打包为css文件，与style loader互斥
-        'css-loader',
-        // {
-        //     loader: 'css-loader',
-        //     options: {
-        //         modules: {
-        //             importLoaders: 1,
-        //             localIdentName: '[name]__[local]--[hash:base64:5]',
-        //         },
-        //     },
-        // },
+        {
+            loader: 'css-loader',
+            options: {
+                importLoaders: 1,
+                modules: {
+                    localIdentName: '[name]__[local]--[hash:base64:5]',
+                },
+            },
+        },
         {
             loader: 'postcss-loader',
             options: {

@@ -9,14 +9,14 @@ import {
 import { routeConfig } from './router/index'
 
 import './styles/normalize.less'
-import './main.less'
+import style from './main.less'
 
 ReactDOM.render(
-    <div className="container">
+    <div className={style.container}>
         <Router>
-            <div>
+            <div className={style.mb10}>
                 <Link to="/">Home</Link>
-                <Link to="/about" className="ml10">About</Link>
+                <Link to="/about" className={style.ml10}>About</Link>
             </div>
             <Switch>
                 {routeConfig.map((route, key) => {

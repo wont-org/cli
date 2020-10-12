@@ -10,6 +10,7 @@ import { Answers } from './../types/index.d'
 import {
     MPA_REACT,
     SPA_REACT,
+    SPA_VUE,
     GREEN,
     DEST_HTML,
     REACT_CDN,
@@ -115,13 +116,20 @@ function getEntry() {
     if(pathExistsSync(CONFIG_WONT)) {
         wontConfig = require(CONFIG_WONT)
     }
-    const { mode } = wontConfig
+    const { 
+        mode,
+        framework,
+    } = wontConfig
     if(mode === 'spa') {
+        let index = SPA_REACT
+        if(framework === 'Vue') {
+            index = SPA_VUE
+        }
         return {
             entry: {
-                index: SPA_REACT,
+                index,
             },
-            htmlWebpackPlugins: new HtmlWebpackPlugin(getHtmlConfig('index'))
+            htmlWebpackPlugins: [new HtmlWebpackPlugin(getHtmlConfig('index'))]
         }
     }
 
@@ -174,8 +182,6 @@ export {
     NodeEnv,
     isDev,
     getEntry,
-    // entry,
-    // htmlWebpackPlugins,
     setNodeEnv,
     logServerInfo,
 }

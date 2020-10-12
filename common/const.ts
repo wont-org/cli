@@ -10,10 +10,14 @@ export const CACHE_DIR = join(CWD, 'node_modules/.cache');
 // config
 export const CONFIG_DIR = join(CWD, 'config')
 export const POSTCSS_CONFIG_FILE = join(CWD, 'postcss.config.js')
-export const MPA_REACT = join(CWD, 'src/pages/**/index.tsx')
-export const SPA_REACT = join(CWD, 'src/main.tsx')
 export const CONFIG_WONT = join(CWD, 'wont.config.js')
 export const CONFIG_BABEL = join(__dirname, '../config/babel.config.js')
+// react
+export const MPA_REACT = join(CWD, 'src/pages/**/index.tsx')
+export const SPA_REACT = join(CWD, 'src/main.tsx')
+// vue
+export const MPA_VUE = join(CWD, 'src/pages/**/index.vue')
+export const SPA_VUE = join(CWD, 'src/main.vue')
 
 // dist
 export const DIST = join(CWD, 'dist')
@@ -31,8 +35,9 @@ export const TPL_DIR = join(__dirname, '../../template')
 export const TPL_HTML = join(TPL_DIR, 'public/index.html')
 export const TPL_PUBLIC = join(TPL_DIR, 'public')
 export const TPL_GITIGNORE = join(TPL_DIR, '.gitignore.tpl')
-export const TPL_REACT_SPA = join(TPL_DIR, 'spa-react/src')
-export const TPL_REACT_MPA = join(TPL_DIR, 'mpa-react/src')
+export const TPL_REACT_SPA = join(TPL_DIR, 'react/spa')
+export const TPL_REACT_MPA = join(TPL_DIR, 'react/mpa')
+export const TPL_REACT_DECLARE = join(TPL_DIR, 'react/declare.d.ts')
 
 // dest
 export const DEST_PUBLIC = join(CWD, 'public')

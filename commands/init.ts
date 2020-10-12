@@ -19,6 +19,8 @@ import {
     TPL_PUBLIC,
     TPL_GITIGNORE,
     TPL_REACT_MPA,
+    TPL_REACT_SPA,
+    TPL_REACT_DECLARE,
     EXPORT_LIB,
 } from './../common/const'
 
@@ -41,13 +43,13 @@ async function genProject() {
         //     choices: ['React', 'Vue'],
         //     default: 'React'
         // },
-        // {
-        //     name: 'mode',
-        //     message: 'Select project mode',
-        //     type: 'list',
-        //     choices: ['spa', 'mpa'],
-        //     default: 'mpa'
-        // },
+        {
+            name: 'mode',
+            message: 'Select project mode',
+            type: 'list',
+            choices: ['spa', 'mpa'],
+            default: 'mpa'
+        },
         {
             name: 'externals',
             message: 'use externals (script framework in CDN)',
@@ -84,9 +86,23 @@ async function genProject() {
         throw(error)
     }
 
-    if(mode === 'mpa' && framework === 'React') {
+    if(framework === 'React') {
+        if (mode === 'mpa') {
+            try {
+                copySync(TPL_REACT_MPA, `${targetDir}/src`)
+            } catch (error) {
+                throw(error)
+            }
+        } else {
+            try {
+                copySync(TPL_REACT_SPA, `${targetDir}/src`)
+            } catch (error) {
+                throw(error)
+            }
+        }
         try {
-            copySync(TPL_REACT_MPA, `${targetDir}/src`) // mpa src
+            copySync(TPL_REACT_DECLARE, `${targetDir}/src/declare.d.ts`)
+            console.log(`\n copy ${chalk.green('declare.d.ts')} success!`)
         } catch (error) {
             throw(error)
         }
@@ -110,9 +126,13 @@ async function genProject() {
     pkg.scripts = scripts
     writeJsonSync(path, pkg)
     if(framework === 'React') {
-        install([...REACT_DEPS, '-S'])
+        let deps = [...REACT_DEPS, '-S']
+        if(mode === 'spa') {
+            deps.unshift('react-router-dom')
+        }
+        install(deps)
     }
-    install(['@wont/cli@latest', '-D'])
+    // install(['@wont/cli@latest', '-D'])
     consola.success(`Successfully created ${chalk.yellow(projectName)}`);
     consola.success(
       `Run ${chalk.yellow(`cd ${projectName} && npm run dev`)} to start development!`

@@ -1,12 +1,12 @@
 # cli
 cli for react and vue
 
-# TODO
+# todo
 ## SPA
-- [ ]  empty dir src
-- [ ]  mkdir src
-- [ ]  touch main.tsx?
-- [ ]  declare.d.ts
+- [x]  empty dir src
+- [x]  mkdir src
+- [x]  touch main.tsx?
+- [x]  declare.d.ts
 ## MPA
 - [x]  empty dir src
 - [x]  mkdir src && mkdir src/demo

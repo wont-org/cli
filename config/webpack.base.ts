@@ -3,7 +3,6 @@ import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin'
 import webpack from 'webpack'
 import WebpackBar from 'webpackbar';
 import { getEntry, isDev } from '../common/utils'
-const { entry, htmlWebpackPlugins } = getEntry()
 import { 
     GREEN,
     CWD,
@@ -24,9 +23,19 @@ const CACHE_LOADER = {
     },
 }
 const baseConfig = () => {
+    const { entry, htmlWebpackPlugins } = getEntry()
     const CSS_LOADERS = [
         isDev() ? 'style-loader' : MiniCssExtractPlugin.loader, // 打包为css文件，与style loader互斥
         'css-loader',
+        // {
+        //     loader: 'css-loader',
+        //     options: {
+        //         modules: {
+        //             importLoaders: 1,
+        //             localIdentName: '[name]__[local]--[hash:base64:5]',
+        //         },
+        //     },
+        // },
         {
             loader: 'postcss-loader',
             options: {
@@ -58,7 +67,7 @@ const baseConfig = () => {
                 {
                     test: /.[jt]sx?$/,
                     use: [
-                        CACHE_LOADER,
+                        // CACHE_LOADER,
                         {
                             loader: 'babel-loader',
                             options: require(CONFIG_BABEL),

@@ -5,7 +5,6 @@ import WebpackBar from 'webpackbar';
 import { getEntry, isDev } from '../common/utils'
 import { 
     GREEN,
-    CWD,
     CONFIG_BABEL,
 } from '../common/const'
 import { 
@@ -66,7 +65,7 @@ const baseConfig = () => {
                 {
                     test: /.[jt]sx?$/,
                     use: [
-                        // CACHE_LOADER,
+                        CACHE_LOADER,
                         {
                             loader: 'babel-loader',
                             options: require(CONFIG_BABEL),

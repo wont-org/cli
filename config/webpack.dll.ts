@@ -14,7 +14,7 @@ const dllConfig = () => {
         },
         plugins: [
             new webpack.DllPlugin({
-                // context: CWD,
+                context: CWD,
                 name: '[name]_[hash]',
                 path: `${CWD}/manifest.json`,
             }),
@@ -69,7 +69,7 @@ function dll() {
         }))
     })
 }
-dll()
+// dll()
 export {
     dll,
 }

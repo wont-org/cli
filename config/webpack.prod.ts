@@ -28,10 +28,10 @@ const prodConfig = () => {
             //     name: '[name]_[hash]',
             //     path: '[name].json',
             // }),
-            new webpack.DllReferencePlugin({
-                context: CWD,
-                manifest: require(`${CWD}/manifest.json`),
-            }),
+            // new webpack.DllReferencePlugin({
+            //     context: CWD,
+            //     manifest: require(`${CWD}/manifest.json`),
+            // }),
         ],
     }
     // const configFile = `${process.cwd()}/wont.config.js`

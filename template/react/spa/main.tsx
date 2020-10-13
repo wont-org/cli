@@ -15,7 +15,7 @@ ReactDOM.render(
     <div className={style.container}>
         <Router>
             <div className={style.mb10}>
-                <Link to="/">Home</Link>
+                <Link to="/home">Home</Link>
                 <Link to="/about" className={style.ml10}>About</Link>
             </div>
             <Switch>

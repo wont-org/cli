@@ -6,7 +6,7 @@ export const routeConfig = [
         component: require('../pages/about/index').default,
     },
     {
-        path: '/',
+        path: '/home',
         component: require('../pages/home/index').default,
     },
     {

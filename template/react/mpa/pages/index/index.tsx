@@ -1,22 +1,20 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import './index.less'
+import style from './index.less'
 
 interface ButtonProps {
     label: string
 }
 
-const Button: React.FC<ButtonProps> = ({ label }) => {
+const Tips: React.FC<ButtonProps> = ({ label }) => {
     return (
-        <button>
-            { label }
-        </button>
+        <p>{ label }</p>
     ) 
 }
 
 ReactDom.render(
-    <div className="container">
-        <Button label="hot render"/>
+    <div className={style.container}>
+        <Tips label="this is a mpa project, means that one pages/**/index.tsx gets one html."/>
     </div>,
     document.getElementById('root')
 )

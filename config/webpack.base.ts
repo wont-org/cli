@@ -1,9 +1,10 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin'
 import webpack from 'webpack'
-import WebpackBar from 'webpackbar';
+import WebpackBar from 'webpackbar'
 import { getEntry, isDev } from '../common/utils'
 import { 
+    CWD,
     GREEN,
     CONFIG_BABEL,
 } from '../common/const'
@@ -21,6 +22,15 @@ const CACHE_LOADER = {
       cacheDirectory: CACHE_DIR,
     },
 }
+const THREAD_LOADER = {
+    loader: 'thread-loader' ,
+    options: {
+        workers: 3
+    }
+}
+const exclude = [/node_modules/]
+const include = [`${CWD}/src`]
+
 const baseConfig = () => {
     const { entry, htmlWebpackPlugins } = getEntry()
     const CSS_LOADERS = [
@@ -56,34 +66,48 @@ const baseConfig = () => {
         output: {
             path: DIST,
             filename: '[name].js',
-            // chunkFilename: '[name].js',
         },
         resolve: {
             extensions: [...SCRIPT_EXTS, ...STYLE_EXTS],
+            modules: [...include, 'node_modules'],
+            alias: {
+                '@': `${CWD}/src`,
+            },
         },
         module: {
             rules: [
                 {
                     test: /.[jt]sx?$/,
+                    exclude,
+                    include,
                     use: [
                         CACHE_LOADER,
+                        THREAD_LOADER,
                         {
                             loader: 'babel-loader',
-                            options: require(CONFIG_BABEL),
+                            options: {
+                                cacheDirectory: true,
+                                ...require(CONFIG_BABEL),
+                            },
                         },
                         // 'eslint-loader',
                     ]
                 },
                 {
                     test: /.css$/,
+                    exclude,
+                    include,
                     use: [
                         ...CSS_LOADERS,
                     ],
                 },
                 {
                     test: /.less$/,
+                    exclude,
+                    include,
                     use: [
                         ...CSS_LOADERS,
+                        CACHE_LOADER,
                         'less-loader',
                     ],
                 },
@@ -91,6 +115,8 @@ const baseConfig = () => {
                 // url-loader基于file-loader 多了小图片自动转base64 limit来实现
                 {
                     test: /.(png|jpe?g|gif|svg)(\?.*)?$/,
+                    exclude,
+                    include,
                     use: {
                         loader: 'url-loader',
                         options: {
@@ -101,6 +127,8 @@ const baseConfig = () => {
                 },
                 {
                     test: /.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                    exclude,
+                    include,
                     use: {
                         loader: 'file-loader',
                         options: {
@@ -121,7 +149,7 @@ const baseConfig = () => {
             ...htmlWebpackPlugins,
         ],
         // devtool: isDev() ? 'eval' : 'cheap-source-map',
-        devtool: isDev() ? 'eval' : false,
+        devtool: isDev() ? 'source-map' : false,
     }
     if(!isDev()) {
         config!.plugins!.unshift( 

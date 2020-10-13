@@ -15,8 +15,9 @@ const About = () => (
     </div>
 )
 ```
-- 使用thread-loader、cache-loader、hard-source-webpack-plugin，打包速度up！
+- 支持typescript
 - 支持热更新
+- 使用thread-loader、cache-loader、hard-source-webpack-plugin，打包速度up！
 - 本地8080端口被占用，则自动开启8080+
 - dev环境使用完整source-map，便于debugger，prod则不使用source-map
 

@@ -38,6 +38,7 @@ export const TPL_GITIGNORE = join(TPL_DIR, '.gitignore.tpl')
 export const TPL_REACT_SPA = join(TPL_DIR, 'react/spa')
 export const TPL_REACT_MPA = join(TPL_DIR, 'react/mpa')
 export const TPL_REACT_DECLARE = join(TPL_DIR, 'react/declare.d.ts')
+export const TPL_TSCONFIG = join(TPL_DIR, 'react/tsconfig.json.tpl')
 
 // dest
 export const DEST_PUBLIC = join(CWD, 'public')
@@ -56,5 +57,9 @@ export const REACT_ROUTER_DOM = `
 export const VUE_CDN = `
 <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.runtime.common.min.js"></script>
 `
-// react
-export const REACT_DEPS = ['react', 'react-dom']
+// react、react-dom 16.13.1
+// "react-router-dom": "^5.2.0"
+// "@types/react": "^16.9.52"
+// "@types/react-dom": "^16.9.8",
+// "@types/react-router-dom": "^5.1.6",
+export const REACT_DEPS = ['react', '@types/react', 'react-dom', '@types/react-dom']

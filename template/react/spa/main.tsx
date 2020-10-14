@@ -28,7 +28,6 @@ ReactDOM.render(
                                 return (
                                     <route.component
                                         {...props}
-                                        children={route.children}
                                     />
                                 )
                             }}

@@ -20,7 +20,7 @@ import {
     TPL_GITIGNORE,
     TPL_REACT_MPA,
     TPL_REACT_SPA,
-    TPL_REACT_DECLARE,
+    TPL_TSCONFIG,
     EXPORT_LIB,
 } from './../common/const'
 
@@ -101,8 +101,8 @@ async function genProject() {
             }
         }
         try {
-            copySync(TPL_REACT_DECLARE, `${targetDir}/src/declare.d.ts`)
-            console.log(`\n copy ${chalk.green('declare.d.ts')} success!`)
+            copySync(TPL_TSCONFIG, `${targetDir}/tsconfig.json`)
+            console.log(`\n copy ${chalk.green('tsconfig.json')} success!`)
         } catch (error) {
             throw(error)
         }
@@ -131,7 +131,7 @@ async function genProject() {
     if(framework === 'React') {
         let deps = [...REACT_DEPS, '-S']
         if(mode === 'spa') {
-            deps.unshift('react-router-dom')
+            deps.unshift('react-router-dom', '@types/react-router-dom')
         }
         install(deps)
     }

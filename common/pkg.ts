@@ -18,7 +18,7 @@ export function hasYarn() {
 
 export function install(deps?: string[]) {
     deps = deps || []
-    consola.info('\n Install Dependencies', ...deps);
+    consola.info('Install Dependencies \n ', ...deps);
     spawnSync('npm', ['install', ...deps], {
         stdio: 'inherit',
     })

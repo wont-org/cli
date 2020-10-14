@@ -5,7 +5,8 @@ import {
     writeFileSync,
     copySync,
     existsSync,
-    removeSync,
+    ensureDirSync,
+    emptyDirSync,
     readJsonSync,
     writeJsonSync,
 } from 'fs-extra'
@@ -33,6 +34,8 @@ export async function init() {
 }
 
 async function genProject() {
+    process.chdir(targetDir)
+
     let wontConfig = {}
     const questions = [
         // TODO
@@ -72,20 +75,30 @@ async function genProject() {
         externals = false,
     } = answers
     console.log('answers :>> ', answers)
+    // generate root config
     wontConfig = {
-        ...wontConfig,
         framework,
         externals,
         mode,
     }
+    writeFileSync(join(targetDir, 'wont.config.js'), EXPORT_LIB + JSON.stringify(wontConfig, null, 4))
 
+    genPKG()
+    // copy right template
     try {
-        copySync(TPL_PUBLIC, `${targetDir}/public`) // public
+        copySync(TPL_PUBLIC, `${targetDir}/public`)
         copySync(TPL_GITIGNORE, `${targetDir}/.gitignore`)
     } catch (error) {
         throw(error)
     }
-
+    const configFiles = [
+        '.browserslistrc',
+        'postcss.config.js',
+        '.env.development',
+        '.env.production',
+    ]
+    copyFiles(configFiles)
+    // generate framework deps
     if(framework === 'React') {
         if (mode === 'mpa') {
             try {
@@ -102,39 +115,18 @@ async function genProject() {
         }
         try {
             copySync(TPL_TSCONFIG, `${targetDir}/tsconfig.json`)
-            console.log(`\n copy ${chalk.green('tsconfig.json')} success!`)
+            console.log(`copy ${chalk.green('tsconfig.json')} success! \n `)
         } catch (error) {
             throw(error)
         }
-    }
 
-    const configFiles = [
-        '.browserslistrc',
-        'postcss.config.js',
-        '.env.development',
-        '.env.production',
-    ]
-    copyFiles(configFiles)
-
-    process.chdir(targetDir)
-    writeFileSync(join(targetDir, 'wont.config.js'), EXPORT_LIB + JSON.stringify(wontConfig, null, 4))
-
-    execSync('npm init -y')
-    const path = process.cwd() + '/package.json'
-    const pkg = readJsonSync(path)
-    const scripts = {
-        "dev": "wont-cli dev",
-        "build": "wont-cli build",
-    }
-    pkg.scripts = scripts
-    writeJsonSync(path, pkg)
-    if(framework === 'React') {
         let deps = [...REACT_DEPS, '-S']
         if(mode === 'spa') {
             deps.unshift('react-router-dom', '@types/react-router-dom')
         }
         install(deps)
     }
+    // finnally install
     install(['@wont/cli@latest', '-D'])
     consola.success(`Successfully created ${chalk.yellow(projectName)}`);
     consola.success(
@@ -142,10 +134,22 @@ async function genProject() {
     )
 }
 
+function genPKG() {
+    execSync('npm init -y')
+    const path = process.cwd() + '/package.json'
+    const pkg = readJsonSync(path)
+    const scripts = {
+        "dev": "wont-cli dev",
+        "build": "wont-cli build",
+    }
+    pkg.main = ''
+    pkg.scripts = scripts
+    writeJsonSync(path, pkg)
+}
+
 function copyFiles(files: string[]) {
     files.forEach(item=> {
         try {
-            // console.log('pwd :>> ',join(__dirname, `../../${item}`), targetDir)
             copySync(join(__dirname, `../../${item}`), `${targetDir}/${item}`)
             console.log(`\n copy ${chalk.green(item)} success!`)
         } catch (err) {
@@ -177,6 +181,7 @@ async function genTargetDir() {
     targetDir = join(CWD, name)
     projectName = name
     if(!existsSync(targetDir)) {
+        ensureDirSync(targetDir)
         return
     }
     const overwriteQuestion = {
@@ -190,11 +195,11 @@ async function genTargetDir() {
         return
     }
     try {
-        console.log(`\n remove ${chalk.cyan(projectName)}...`)
-        removeSync(targetDir)
-        console.log(`\n remove ${chalk.green('Success')}`)
+        console.log(`\n emptyDir ${chalk.cyan(projectName)}...`)
+        emptyDirSync(targetDir)
+        console.log(`\n emptyDir ${chalk.green('Success')}`)
     } catch (err) {
-        console.log(`\n remove ${chalk.red(projectName)} error!`)
+        console.log(`\n emptyDir ${chalk.red(projectName)} error!`)
         throw(err)
     }
     

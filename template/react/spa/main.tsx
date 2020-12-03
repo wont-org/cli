@@ -9,7 +9,7 @@ import {
 import { routeConfig } from './router/index'
 
 import './styles/normalize.less'
-import style from './main.less'
+import style from './main.module.less'
 
 ReactDOM.render(
     <div className={style.container}>

@@ -41,6 +41,7 @@ const baseConfig = () => {
                 importLoaders: 1,
                 modules: {
                     localIdentName: '[name]__[local]--[hash:base64:5]',
+                    exportLocalsConvention: "camelCase",
                     auto: (resourcePath) => /.module.(css|less)$/i.test(resourcePath),
                 },
             },

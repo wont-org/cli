@@ -6,14 +6,20 @@
 (https://www.bootcdn.cn/)
 - 支持[css module](https://github.com/css-modules/css-modules)，支持less。(推荐)
 ```jsx
-import style from './index.(less|css)'
+import style from './index.module.(less|css)'
 import React from 'react'
 
 const About = () => (
-    <div className={style.container}>
+    // 会自动将连字符转换为驼峰 main-container => mainContainer
+    <div className={style.mainContainer}>
         this is About page
     </div>
 )
+```
+```css
+.main-container {
+    border: 1px solid red;
+}
 ```
 - 支持typescript
 - 支持热更新

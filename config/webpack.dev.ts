@@ -19,7 +19,7 @@ const devConfig: webpack.Configuration = {
         port: 8080,
         // quiet: true,
         stats: 'minimal',
-        host: '127.0.0.1',
+        host: '0.0.0.0',
         contentBase: false,
         publicPath: '/',
         hot: true,

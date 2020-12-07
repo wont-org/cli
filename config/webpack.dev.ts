@@ -29,11 +29,11 @@ const devConfig: webpack.Configuration = {
 async function dev() {
     setNodeEnv('development')
     const config = merge(baseConfig(), devConfig)
-    const server = new WebpackDevServer(webpack(config), devConfig.devServer)
-    const basePort = devConfig!.devServer!.port || 8080
+    const server = new WebpackDevServer(webpack(config), config.devServer)
+    const basePort = config!.devServer!.port || 8080
     portfinder.basePort = basePort
     const port = await portfinder.getPortPromise()
-    const host = devConfig!.devServer!.host || 'localhost'
+    const host = config!.devServer!.host || 'localhost'
     server.listen(port, host, ()=> {
         logServerInfo(port)
     })

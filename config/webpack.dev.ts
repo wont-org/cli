@@ -4,6 +4,7 @@ import webpack from 'webpack'
 import portfinder from 'portfinder'
 import baseConfig from './webpack.base'
 import { setNodeEnv, logServerInfo } from '../common/utils'
+import { CONFIG_WONT } from '../common/const'
 
 const devConfig: webpack.Configuration = {
     watch: false,
@@ -28,7 +29,8 @@ const devConfig: webpack.Configuration = {
 
 async function dev() {
     setNodeEnv('development')
-    const config = merge(baseConfig(), devConfig)
+    const customDevConfig = require(CONFIG_WONT).dev || {}
+    const config = merge(baseConfig(), devConfig, customDevConfig)
     const server = new WebpackDevServer(webpack(config), config.devServer)
     const basePort = config!.devServer!.port || 8080
     portfinder.basePort = basePort

@@ -57,9 +57,8 @@ export const REACT_ROUTER_DOM = `
 export const VUE_CDN = `
 <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.runtime.common.min.js"></script>
 `
-// react、react-dom 16.13.1
-// "react-router-dom": "^5.2.0"
-// "@types/react": "^16.9.52"
-// "@types/react-dom": "^16.9.8",
-// "@types/react-router-dom": "^5.1.6",
-export const REACT_DEPS = ['react', '@types/react', 'react-dom', '@types/react-dom']
+
+export const REACT_DEPS = {
+    react: ['react@16.13.1', '@types/react@16.9.52', 'react-dom@16.13.1', '@types/react-dom@16.9.8'],
+    reactRouter: ['react-router-dom@5.2.0', '@types/react-router-dom@5.1.6'],
+}

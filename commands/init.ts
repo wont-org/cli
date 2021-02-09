@@ -120,9 +120,9 @@ async function genProject() {
             throw(error)
         }
 
-        let deps = [...REACT_DEPS, '-S']
+        let deps = [...REACT_DEPS.react, '-S']
         if(mode === 'spa') {
-            deps.unshift('react-router-dom', '@types/react-router-dom')
+            deps.unshift(...REACT_DEPS.reactRouter)
         }
         install(deps)
     }

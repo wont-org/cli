@@ -14,7 +14,7 @@ import {
     CACHE_DIR,
     DIST,
     POSTCSS_CONFIG_FILE,
-} from '../common/const';
+} from '../common/const'
 
 const CACHE_LOADER = {
     loader: 'cache-loader',
@@ -97,16 +97,12 @@ const baseConfig = () => {
                 },
                 {
                     test: /.css$/,
-                    exclude,
-                    include,
                     use: [
                         ...CSS_LOADERS,
                     ],
                 },
                 {
                     test: /.less$/,
-                    exclude,
-                    include,
                     use: [
                         ...CSS_LOADERS,
                         CACHE_LOADER,

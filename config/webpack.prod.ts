@@ -44,7 +44,6 @@ const prodConfig = () => {
                     name: `chunk-vendors`,
                     test: /[\\/]node_modules[\\/]/,
                     // test: /(react|react-dom|react-router-dom)/,
-                    // test: /(react-router-dom)/,
                     priority: -10,
                     chunks: 'initial'
                 },

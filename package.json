@@ -8,12 +8,7 @@
   },
   "scripts": {
     "link": "npm run prepublishOnly && npm link",
-    "prepublishOnly": "rm -rf lib && tsc",
-    "dev": "wont-cli dev",
-    "dd": "ts-node index.ts dev",
-    "build": "wont-cli build",
-    "bb": "ts-node index.ts build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublishOnly": "rm -rf lib && tsc"
   },
   "repository": {
     "type": "git",

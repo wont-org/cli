@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Set up NPM authentication
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_KEY }}" > ~/.npmrc
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.ORG_NPM_KEY }}" > ~/.npmrc
 
       - name: cache package-lock.json
         uses: actions/cache@v2
@@ -44,6 +44,6 @@ jobs:
       - name: publish
         run: npm publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GIT_KEY }}
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_KEY }}
+          GITHUB_TOKEN: ${{ secrets.ORG_GIT_KEY }}
+          NPM_AUTH_TOKEN: ${{ secrets.ORG_NPM_KEY }}
 

@@ -11,7 +11,6 @@ import { get } from '@wont/utils'
 
 const datahubConfig = () => {
     const customDevConfig = require(CONFIG_WONT) || {}
-    console.log('cli mock :>> ', customDevConfig.mock);
     const port = get(customDevConfig, 'mock.port', 5678)
     return {
         port,

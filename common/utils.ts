@@ -172,7 +172,17 @@ function setNodeEnv(value: NodeEnv) {
         ...parsed,
         NODE_ENV: value,
     }
-    return parsed
+}
+
+function getStringifiedEnv() {
+    const raw = process.env
+    const stringified = {
+        'process.env': Object.keys(raw).reduce((env, key) => {
+            env[key] = JSON.stringify(raw[key])
+            return env
+        }, {}),
+    }
+    return stringified
 }
 
 function logServerInfo(port, name = 'Site') {
@@ -197,4 +207,5 @@ export {
     setNodeEnv,
     logServerInfo,
     getPort,
+    getStringifiedEnv,
 }

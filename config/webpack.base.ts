@@ -2,13 +2,11 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin'
 import webpack from 'webpack'
 import WebpackBar from 'webpackbar'
-import { getEntry, isDev } from '../common/utils'
+import { getEntry, isDev, getStringifiedEnv } from '../common/utils'
 import { 
     CWD,
     GREEN,
     CONFIG_BABEL,
-} from '../common/const'
-import { 
     SCRIPT_EXTS,
     STYLE_EXTS,
     CACHE_DIR,
@@ -140,11 +138,11 @@ const baseConfig = () => {
             new FriendlyErrorsPlugin({
                 clearConsole: false,
             }),
-            // new webpack.DefinePlugin(env.stringified),
             new WebpackBar({
                 name: 'Wont Cli',
                 color: GREEN,
             }),
+            new webpack.DefinePlugin(getStringifiedEnv()),
             ...htmlWebpackPlugins,
         ],
         // devtool: isDev() ? 'eval' : 'cheap-source-map',

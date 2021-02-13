@@ -36,7 +36,6 @@ export async function init() {
 async function genProject() {
     process.chdir(targetDir)
 
-    let wontConfig = {}
     const questions = [
         // TODO
         // {
@@ -55,7 +54,7 @@ async function genProject() {
         },
         {
             name: 'externals',
-            message: 'use externals (script framework in CDN)',
+            message: 'Use externals (script framework in CDN)',
             type: 'confirm',
             default: true
         },
@@ -68,22 +67,18 @@ async function genProject() {
         //     default: 'PC'
         // },
     ]
-    const answers: Answers = await prompt(questions)
+    const answers: Answers = await prompt(questions) || {}
     const {
         framework = 'React',
         mode = 'spa',
-        externals = false,
     } = answers
     console.log('answers :>> ', answers)
+
     // generate root config
-    wontConfig = {
-        framework,
-        externals,
-        mode,
-    }
-    writeFileSync(join(targetDir, 'wont.config.js'), EXPORT_LIB + JSON.stringify(wontConfig, null, 4))
+    writeFileSync(join(targetDir, 'wont.config.js'), EXPORT_LIB + JSON.stringify(answers, null, 4))
 
     genPKG()
+
     // copy right template
     try {
         copySync(TPL_PUBLIC, `${targetDir}/public`)
@@ -98,6 +93,9 @@ async function genProject() {
         '.env.production',
     ]
     copyFiles(configFiles)
+
+    let deps: string[] = []
+    let devDeps: string[] = ['@wont/cli@latest', '-D']
     // generate framework deps
     if(framework === 'React') {
         if (mode === 'mpa') {
@@ -120,14 +118,15 @@ async function genProject() {
             throw(error)
         }
 
-        let deps = [...REACT_DEPS.react, '-S']
+        deps = [...REACT_DEPS.react, '-S']
         if(mode === 'spa') {
             deps.unshift(...REACT_DEPS.reactRouter)
         }
         install(deps)
     }
+
     // finnally install
-    install(['@wont/cli@latest', '-D'])
+    install(devDeps)
     consola.success(`Successfully created ${chalk.yellow(projectName)}`);
     consola.success(
       `Run ${chalk.yellow(`cd ${projectName} && npm run dev`)} to start development!`

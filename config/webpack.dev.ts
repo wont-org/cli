@@ -9,10 +9,10 @@ import { setNodeEnv, logServerInfo, getPort } from '../common/utils'
 import { CONFIG_WONT, CWD } from '../common/const'
 import { get } from '@wont/utils'
 
-const datahubConfig = async () => {
+const datahubConfig = () => {
     const customDevConfig = require(CONFIG_WONT) || {}
-    const basePort = get(customDevConfig, 'mock.port', 5678)
-    const port = await getPort(basePort)
+    console.log('cli mock :>> ', customDevConfig.mock);
+    const port = get(customDevConfig, 'mock.port', 5678)
     return {
         port,
         hostname: '0.0.0.0',
@@ -28,46 +28,45 @@ const datahubConfig = async () => {
 }
 
 const defaultDatahub = new DataHub({
-  port: async ()=> {
-    const { port } = await datahubConfig() || {}
-    return port
-  },
+  port: datahubConfig().port,
 })
 
-const devConfig: webpack.Configuration = {
-    watch: false,
-    watchOptions: {
-        ignored: /node_modules/,
-        aggregateTimeout: 300, // aggregateTimeout ms 后执行  默认300ms
-        poll: 1000, // 轮询是否发生变化 默认每秒1000次 也就是1ms/次
-    },
-	mode: 'development',
-    devServer: {
-        open: false,
-        compress: true,
-        port: 8080,
-        // quiet: true,
-        stats: 'minimal',
-        host: '0.0.0.0',
-        contentBase: false,
-        publicPath: '/',
-        hot: true,
-        before: async app => {
-            datahubMiddleware(app)(await datahubConfig());
+const devConfig = (): webpack.Configuration => {
+    const mockConfig = datahubConfig()
+    return {
+        watch: false,
+        watchOptions: {
+            ignored: /node_modules/,
+            aggregateTimeout: 300, // aggregateTimeout ms 后执行  默认300ms
+            poll: 1000, // 轮询是否发生变化 默认每秒1000次 也就是1ms/次
         },
-        after: async () => {
-          defaultDatahub.startServer(await datahubConfig()).then(async () => {
-            const { port } = await datahubConfig() || {}
-            logServerInfo(port, 'Mock')
-          });
+        mode: 'development',
+        devServer: {
+            open: false,
+            compress: true,
+            port: 8080,
+            // quiet: true,
+            stats: 'minimal',
+            host: '0.0.0.0',
+            contentBase: false,
+            publicPath: '/',
+            hot: true,
+            before: app => {
+                datahubMiddleware(app)(mockConfig);
+            },
+            after: () => {
+              defaultDatahub.startServer(mockConfig).then(() => {
+                logServerInfo(mockConfig.port, 'Mock')
+              });
+            },
         },
-    },
+    }
 }
 
 async function dev() {
     setNodeEnv('development')
     const customDevConfig = require(CONFIG_WONT).dev || {}
-    const config = merge(baseConfig(), devConfig, customDevConfig)
+    const config = merge(baseConfig(), devConfig(), customDevConfig)
     const server = new WebpackDevServer(webpack(config), config.devServer)
     const basePort = config!.devServer!.port || 8080
     const port = await getPort(basePort)

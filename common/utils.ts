@@ -17,6 +17,7 @@ import {
     REACT_CDN,
     VUE_CDN,
     CONFIG_WONT,
+    CWD,
 } from './const';
 import {
     NodeEnv,
@@ -159,11 +160,11 @@ function getEntry() {
 
 
 function setNodeEnv(value: NodeEnv) {
-    const path = `.env.${value}`
+    const path = `${CWD}/.env.${value}`
     let parsed = {}
     if(pathExistsSync(path)) {
         const config = dotenv.config({
-            path: `.env.${value}`
+            path,
         })
         parsed = config.parsed || {}
     }
@@ -171,6 +172,7 @@ function setNodeEnv(value: NodeEnv) {
         ...parsed,
         NODE_ENV: value,
     }
+    return parsed
 }
 
 function logServerInfo(port, name = 'Site') {

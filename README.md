@@ -1,10 +1,12 @@
 ## Feature
+- 支持mock功能（集成[Macaca DataHub](https://macacajs.github.io/macaca-datahub/zh/)）
 - 支持splitChunk，分基础包和业务包
-- 支持使用node环境变量，在.env.xx环境配置即可，在项目中使用`process.env.xxx`
+- 支持使用node环境变量，根目录下.env.(production | development)文件配置环境即可，在项目中使用`process.env.xxx`
 - 支持react 单页面(spa)、多页面(mpa)开发
 - 支持externals免打包，通过script [BootCDN链入]
 (https://www.bootcdn.cn/)
 - 支持[css module](https://github.com/css-modules/css-modules)，支持less。(推荐)
+
 ```jsx
 import style from './index.module.(less|css)'
 import React from 'react'
@@ -57,6 +59,7 @@ wont-cli init
 ├── postcss.config.js
 ├── public
 │   └── index.html
+├── mock # mock本地数据
 ├── src
 │   ├── components
 │   │   └── button
@@ -87,6 +90,7 @@ wont-cli init
 ├── postcss.config.js # 可在基础上添加postcss功能
 ├── public
 │   └── index.html
+├── mock # mock本地数据
 ├── src
 │   └── pages
 │       └── index
@@ -101,7 +105,10 @@ wont-cli init
 module.exports = {
     "framework": "React", // 必选 React-默认 Vue-暂未支持
     "externals": true, // 是否启用script cdn接入 默认-true，react、react-dom将自动cdn引入
-    "mode": "spa" // 必选，spa-单页面（默认） mpa-多页面 
+    "mode": "spa", // 必选，spa-单页面（默认） mpa-多页面
+    mock: {
+        port: 3000, // 可指定mock端口，默认5678
+    }
 }
 ```
 

@@ -140,6 +140,7 @@ const baseConfig = () => {
             new FriendlyErrorsPlugin({
                 clearConsole: false,
             }),
+            // new webpack.DefinePlugin(env.stringified),
             new WebpackBar({
                 name: 'Wont Cli',
                 color: GREEN,

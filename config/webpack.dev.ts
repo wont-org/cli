@@ -26,10 +26,6 @@ const datahubConfig = () => {
     }
 }
 
-const defaultDatahub = new DataHub({
-  port: datahubConfig().port,
-})
-
 const devConfig = (): webpack.Configuration => {
     const mockConfig = datahubConfig()
     return {
@@ -54,6 +50,9 @@ const devConfig = (): webpack.Configuration => {
                 datahubMiddleware(app)(mockConfig);
             },
             after: () => {
+              const defaultDatahub = new DataHub({
+                port: datahubConfig().port,
+              })
               defaultDatahub.startServer(mockConfig).then(() => {
                 logServerInfo(mockConfig.port, 'Mock')
               });

@@ -5,6 +5,7 @@ import glob from 'glob'
 import { basename, dirname } from 'path'
 import address from 'address'
 import dotenv from 'dotenv'
+import portfinder from 'portfinder'
 import { Answers } from './../types/index.d'
 
 import {
@@ -172,13 +173,19 @@ function setNodeEnv(value: NodeEnv) {
     }
 }
 
-function logServerInfo(port) {
+function logServerInfo(port, name = 'Site') {
     const local = `http://localhost:${port}/`;
     const network = `http://${address.ip()}:${port}/`;
   
-    console.log('\n  Site running at:\n');
+    console.log(`\n  ${name} running at:\n`);
     console.log(`  ${chalk.bold('Local')}:    ${chalk.hex(GREEN)(local)} `);
     console.log(`  ${chalk.bold('Network')}:  ${chalk.hex(GREEN)(network)}`);
+}
+
+async function getPort(basePort: number) {
+    portfinder.basePort = basePort
+    const port = await portfinder.getPortPromise()
+    return port
 }
 
 export {
@@ -187,4 +194,5 @@ export {
     getEntry,
     setNodeEnv,
     logServerInfo,
+    getPort,
 }

@@ -1,10 +1,38 @@
+import { join } from 'path'
+import datahubMiddleware from 'datahub-proxy-middleware'
+import DataHub from 'macaca-datahub'
 import WebpackDevServer from 'webpack-dev-server'
 import merge from 'webpack-merge'
 import webpack from 'webpack'
-import portfinder from 'portfinder'
 import baseConfig from './webpack.base'
-import { setNodeEnv, logServerInfo } from '../common/utils'
-import { CONFIG_WONT } from '../common/const'
+import { setNodeEnv, logServerInfo, getPort } from '../common/utils'
+import { CONFIG_WONT, CWD } from '../common/const'
+import { get } from '@wont/utils'
+
+const datahubConfig = async () => {
+    const customDevConfig = require(CONFIG_WONT) || {}
+    const basePort = get(customDevConfig, 'mock.port', 5678)
+    const port = await getPort(basePort)
+    return {
+        port,
+        hostname: '0.0.0.0',
+        store: join(CWD, './mock'),
+        proxy: {
+          '/api': {
+            hub: 'demo',
+            target: `http://localhost:${port}`,
+          },
+        },
+        showBoard: true,
+    }
+}
+
+const defaultDatahub = new DataHub({
+  port: async ()=> {
+    const { port } = await datahubConfig() || {}
+    return port
+  },
+})
 
 const devConfig: webpack.Configuration = {
     watch: false,
@@ -24,6 +52,15 @@ const devConfig: webpack.Configuration = {
         contentBase: false,
         publicPath: '/',
         hot: true,
+        before: async app => {
+            datahubMiddleware(app)(await datahubConfig());
+        },
+        after: async () => {
+          defaultDatahub.startServer(await datahubConfig()).then(async () => {
+            const { port } = await datahubConfig() || {}
+            logServerInfo(port, 'Mock')
+          });
+        },
     },
 }
 
@@ -33,8 +70,7 @@ async function dev() {
     const config = merge(baseConfig(), devConfig, customDevConfig)
     const server = new WebpackDevServer(webpack(config), config.devServer)
     const basePort = config!.devServer!.port || 8080
-    portfinder.basePort = basePort
-    const port = await portfinder.getPortPromise()
+    const port = await getPort(basePort)
     const host = config!.devServer!.host || 'localhost'
     server.listen(port, host, ()=> {
         logServerInfo(port)

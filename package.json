@@ -1,6 +1,6 @@
 {
   "name": "@wont/cli",
-  "version": "0.0.1-beta.6",
+  "version": "0.0.1-beta.7",
   "description": "cli for react and vue",
   "main": "lib/index.js",
   "bin": {
@@ -10,6 +10,9 @@
     "pushtag": "git push --tags origin master",
     "link": "npm run prepublishOnly && npm link",
     "prepublishOnly": "rm -rf lib && tsc"
+  },
+  "engines": {
+    "node": "12.x"
   },
   "repository": {
     "type": "git",

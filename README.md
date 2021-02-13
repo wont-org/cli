@@ -1,3 +1,9 @@
+## 特别说明
+由于mock使用了[Macaca DataHub](https://macacajs.github.io/macaca-datahub/zh/)，必须使用node12.x下载
+```bash
+nvm use 12
+```
+
 ## Feature
 - 支持mock功能（集成[Macaca DataHub](https://macacajs.github.io/macaca-datahub/zh/)）
 - 支持splitChunk，分基础包和业务包

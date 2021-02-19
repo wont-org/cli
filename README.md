@@ -12,6 +12,7 @@ nvm use 12
 - 支持externals免打包，通过script [BootCDN链入]
 (https://www.bootcdn.cn/)
 - 支持[css module](https://github.com/css-modules/css-modules)，支持less。(推荐)
+- 支持手机适配，初始化项目选择Mobile即可
 
 ```jsx
 import style from './index.module.(less|css)'

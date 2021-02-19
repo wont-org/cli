@@ -17,11 +17,7 @@ import { Answers } from '../types'
 import { 
     CWD,
     REACT_DEPS,
-    TPL_PUBLIC,
-    TPL_GITIGNORE,
-    TPL_REACT_MPA,
-    TPL_REACT_SPA,
-    TPL_TSCONFIG,
+    TPL,
     EXPORT_LIB,
 } from './../common/const'
 
@@ -58,21 +54,25 @@ async function genProject() {
             type: 'confirm',
             default: true
         },
-        // TODO
-        // {
-        //     name: 'platform',
-        //     message: 'Select platform build',
-        //     type: 'list',
-        //     choices: ['PC', 'Mobile'],
-        //     default: 'PC'
-        // },
+        {
+            name: 'platform',
+            message: 'Select platform build',
+            type: 'list',
+            choices: ['PC', 'Mobile'],
+            default: 'PC'
+        },
     ]
-    const answers: Answers = await prompt(questions) || {}
+    const answers: Answers = await prompt(questions)
     const {
+        // TODO 支持 vue 后删除默认值，Answers.framework改为必选
         framework = 'React',
-        mode = 'spa',
+        mode,
+        platform,
     } = answers
     console.log('answers :>> ', answers)
+
+    let deps: string[] = []
+    let devDeps: string[] = ['@wont/cli@latest', '-D']
 
     // generate root config
     writeFileSync(join(targetDir, 'wont.config.js'), EXPORT_LIB + JSON.stringify(answers, null, 4))
@@ -81,38 +81,42 @@ async function genProject() {
 
     // copy right template
     try {
-        copySync(TPL_PUBLIC, `${targetDir}/public`)
-        copySync(TPL_GITIGNORE, `${targetDir}/.gitignore`)
+        copySync(TPL.gitignore, `${targetDir}/.gitignore`)
+        if (platform === 'Mobile') {
+            copySync(TPL.postcssMobile, `${targetDir}/postcss.config.js`)
+            copySync(TPL.htmlMobile, `${targetDir}/public/index.html`)
+            devDeps.unshift('postcss-pxtorem')
+        } else {
+            copySync(TPL.postcss, `${targetDir}/postcss.config.js`)
+            copySync(TPL.html, `${targetDir}/public/index.html`)
+        }
     } catch (error) {
         throw(error)
     }
-    const configFiles = [
+    const othersFiles: string[] = [
         '.browserslistrc',
-        'postcss.config.js',
         '.env.development',
         '.env.production',
     ]
-    copyFiles(configFiles)
+    copyTplToTarget(TPL.others, targetDir, othersFiles)
 
-    let deps: string[] = []
-    let devDeps: string[] = ['@wont/cli@latest', '-D']
     // generate framework deps
     if(framework === 'React') {
         if (mode === 'mpa') {
             try {
-                copySync(TPL_REACT_MPA, `${targetDir}/src`)
+                copySync(TPL.reactMPA, `${targetDir}/src`)
             } catch (error) {
                 throw(error)
             }
         } else {
             try {
-                copySync(TPL_REACT_SPA, `${targetDir}/src`)
+                copySync(TPL.reactSPA, `${targetDir}/src`)
             } catch (error) {
                 throw(error)
             }
         }
         try {
-            copySync(TPL_TSCONFIG, `${targetDir}/tsconfig.json`)
+            copySync(TPL.tsconfig, `${targetDir}/tsconfig.json`)
             console.log(`copy ${chalk.green('tsconfig.json')} success! \n `)
         } catch (error) {
             throw(error)
@@ -146,13 +150,14 @@ function genPKG() {
     writeJsonSync(path, pkg)
 }
 
-function copyFiles(files: string[]) {
+function copyTplToTarget(from: string, to: string, files: string[]) {
     files.forEach(item=> {
         try {
-            copySync(join(__dirname, `../../${item}`), `${targetDir}/${item}`)
+            copySync(`${from}/${item}`, `${to}/${item}`)
             console.log(`\n copy ${chalk.green(item)} success!`)
         } catch (err) {
             console.log(`\n copy ${chalk.red(item)} error!`)
+            console.log('err :>> ', err)
             process.exit(1)
         }
     })

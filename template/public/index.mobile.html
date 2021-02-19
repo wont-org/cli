@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function (doc, win) {
+    var docEl = win.document.documentElement;
+    var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+    var metaEl = doc.querySelector('meta[name="viewport"]');
+    var dpr = 0;
+    var scale = 0;
+
+    // var isAndroid = win.navigator.appVersion.match(/android/gi);
+    // var isIPhone = win.navigator.appVersion.match(/[iphone|ipad]/gi);
+    var devicePixelRatio = win.devicePixelRatio;
+    dpr = devicePixelRatio;
+    scale = 1 / dpr;
+    docEl.setAttribute('data-dpr', dpr);
+    // 动态改写meta:viewport标签
+    if (!metaEl) {
+        metaEl = doc.createElement('meta');
+        metaEl.setAttribute('name', 'viewport');
+        metaEl.setAttribute('content', 'width=device-width, initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+        docEl.firstElementChild.appendChild(metaEl);
+    } else {
+        metaEl.setAttribute('content', 'width=device-width, initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+    }
+
+    docEl.style.fontSize = 50 * innerWidth / 375 + 'px'
+    win.addEventListener('orientationchange', function() {
+        setTimeout(()=> {
+            docEl.style.fontSize = 50 * innerWidth / 375 + 'px'
+        }, 50)
+    });
+})(document, window);
+</script>
+<%= framework %>
+</body>
+</html>

@@ -31,14 +31,20 @@ export const EXPORT_ES = 'export default '
 export const EXPORT_LIB = 'module.exports = '
 
 // template
-export const TPL_DIR = join(__dirname, '../../template')
-export const TPL_HTML = join(TPL_DIR, 'public/index.html')
-export const TPL_PUBLIC = join(TPL_DIR, 'public')
-export const TPL_GITIGNORE = join(TPL_DIR, '.gitignore.tpl')
-export const TPL_REACT_SPA = join(TPL_DIR, 'react/spa')
-export const TPL_REACT_MPA = join(TPL_DIR, 'react/mpa')
-export const TPL_REACT_DECLARE = join(TPL_DIR, 'react/declare.d.ts')
-export const TPL_TSCONFIG = join(TPL_DIR, 'react/tsconfig.json.tpl')
+export const TPL_ROOT = join(__dirname, '../../template')
+export const TPL = {
+    html: join(TPL_ROOT, 'public/index.html'),
+    htmlMobile: join(TPL_ROOT, 'public/index.mobile.html'),
+    public: join(TPL_ROOT, 'public'),
+    reactSPA: join(TPL_ROOT, 'react/spa'),
+    reactMPA: join(TPL_ROOT, 'react/mpa'),
+    declare: join(TPL_ROOT, 'react/declare.d.ts'),
+    tsconfig: join(TPL_ROOT, 'react/tsconfig.json.tpl'),
+    others: join(TPL_ROOT, 'others'),
+    gitignore: join(TPL_ROOT, 'others/.gitignore.tpl'),
+    postcss: join(TPL_ROOT, 'others/postcss.config.js'),
+    postcssMobile: join(TPL_ROOT, 'others/postcss.mobile.config.js'),
+}
 
 // dest
 export const DEST_PUBLIC = join(CWD, 'public')

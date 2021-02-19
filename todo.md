@@ -29,12 +29,12 @@ cli for react and vue
 - [x]  externals
 
 ## dev config
-- [ ]  proxy from devServer (provide webpack.js option to merge is ok)
+- [x]  proxy from devServer (provide webpack.js option to merge is ok)
 - [x]  port take up (portfinder)
 
 ## platform
-- [ ]  mobile (mainly about rem, can work with pxtorem postcss plugins)
-- [ ]  pc
+- [x]  mobile (mainly about rem, can work with pxtorem postcss plugins)
+- [x]  pc
 
 ## init dir
 - [x] ~~make sure dir is exit or has conflict, and resolve conflict by overwrite, both, some like git diff~~ make sure dir is exit, is exit, overwrite by emptyDir

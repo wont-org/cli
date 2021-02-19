@@ -109,11 +109,10 @@ function getHtmlConfig(entryName: string) {
             params.templateParameters.framework = REACT_CDN
         }
         if(framework === 'Vue') {
-            params.templateParameters = {
-                framework: VUE_CDN,
-            }
+            params.templateParameters.framework = VUE_CDN
         }
     }
+
     return params
 }
 function getEntry() {
